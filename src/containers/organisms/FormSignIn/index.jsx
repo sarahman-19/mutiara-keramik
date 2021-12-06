@@ -52,7 +52,7 @@ const FormSignIn = (props) => {
       </Box>
 
       <Box sx={{ display: "flex", justifyContent: "center", mb: 2 }}>
-        <Button variant="outlined" startIcon={<FacebookIcon />}>
+        <Button onClick={props.handleLoginWithFacebook} variant="contained" startIcon={<FacebookIcon />}>
           Masuk Dengan Facebook
         </Button>
       </Box>

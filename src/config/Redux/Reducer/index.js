@@ -1,10 +1,7 @@
 const initialState = {
   isLogin: false,
   isLoading: false,
-  dataUser: {
-    username: "strangers",
-    telpon: "08123456789",
-  },
+  dataUser: {},
 };
 
 const Reducer = (state = initialState, action) => {

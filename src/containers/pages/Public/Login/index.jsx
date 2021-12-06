@@ -2,12 +2,24 @@ import { Box, CardMedia } from "@mui/material";
 import loginImage from "../../../../assets/svg/login.svg";
 import FormSignIn from "../../../organisms/FormSignIn";
 import { connect } from "react-redux";
-import { loginWithEmailApi } from "../../../../config/Redux/Action";
+import { loginWithEmailApi, loginWithFacebookApi } from "../../../../config/Redux/Action";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Login = (props) => {
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (props.isLogin) {
+      navigate("/");
+    }
+  });
+
+  const handleLoginFacebook = () => {
+   props.loginWithFacebook()
+  };
 
   const handleLogin = (email, password) => {
-    props.loginWithEmail({email, password})
+    props.loginWithEmail({ email, password });
   };
 
   return (
@@ -35,7 +47,10 @@ const Login = (props) => {
           alignItems: "center",
         }}
       >
-        <FormSignIn handleInput={handleLogin} />
+        <FormSignIn
+          handleLoginWithFacebook={handleLoginFacebook}
+          handleInput={handleLogin}
+        />
       </Box>
     </Box>
   );
@@ -46,7 +61,8 @@ const stateRedux = (state) => ({
 });
 
 const actionRedux = (dispatch) => ({
-  loginWithEmail: (data) => dispatch(loginWithEmailApi(data))
+  loginWithEmail: (data) => dispatch(loginWithEmailApi(data)),
+  loginWithFacebook: () => dispatch(loginWithFacebookApi())
 });
 
 export default connect(stateRedux, actionRedux)(Login);

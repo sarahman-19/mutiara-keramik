@@ -3,11 +3,20 @@ import RegisterImage from "../../../../assets/svg/register.svg";
 import FormSignUp from "../../../organisms/FormSignUp";
 import { connect } from "react-redux";
 import { registerWithEmailApi } from "../../../../config/Redux/Action";
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
+import {useNavigate} from 'react-router-dom';
 
 const Register = (props) => {
+  const navigate = useNavigate()
+
   const [values, setValues] = useState({
     checkPassword: false
+  })
+
+  useEffect(() => {
+    if(props.isLogin){
+      navigate('/')
+    }
   })
   
   const handleRegister = (username, telpon, email, password) => {
