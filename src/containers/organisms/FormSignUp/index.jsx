@@ -1,5 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { connect } from "react-redux";
+
+import LoadingButtonComp from "../../../components/atoms/LoadingButtonComp";
 
 import {
   Box,
@@ -11,6 +14,8 @@ import {
   IconButton,
   InputLabel,
   FormControl,
+  Collapse,
+  FormHelperText
 } from "@mui/material";
 
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
@@ -24,7 +29,7 @@ const FormSignUp = (props) => {
     showPassword: false,
     email: "",
     username: "",
-    telpon: "",
+    telpon: ""
   });
 
   const handleChange = (prop) => (event) => {
@@ -84,7 +89,7 @@ const FormSignUp = (props) => {
           size="small"
         />
 
-        <FormControl sx={{ mb: 2 }} variant="outlined">
+        <FormControl sx={{ mb: 1 }} variant="outlined">
           <InputLabel htmlFor="passwordInput">Password</InputLabel>
           <OutlinedInput
             size="small"
@@ -111,21 +116,23 @@ const FormSignUp = (props) => {
             label="Password"
           />
         </FormControl>
+        <Collapse in={props.checkPassword} sx={{ mb: 2 }}>
+          <FormHelperText sx={{ color: "red" }}>
+          password kurang dari 6 karakter
+          </FormHelperText>
+        </Collapse>
 
-        <Button
-          onClick={() =>
+        <LoadingButtonComp
+          title="Daftar"
+          handleSubmit={() =>
             props.handleInput(
               values.username,
               values.telpon,
               values.email,
               values.password
-            )
-          }
-          variant="contained"
-          id="signUpWithPhone"
-        >
-          Daftar
-        </Button>
+            )}
+          loadingStatus={props.Loading}
+        />
 
         <Button
           sx={{ textAlign: "center", mt: 2 }}
@@ -139,4 +146,8 @@ const FormSignUp = (props) => {
   );
 };
 
-export default FormSignUp;
+const reduxState = (state) => ({
+  Loading: state.isLoading
+})
+
+export default connect(reduxState, null)(FormSignUp);

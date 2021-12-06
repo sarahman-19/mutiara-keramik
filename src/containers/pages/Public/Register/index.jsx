@@ -1,23 +1,27 @@
 import { Box, CardMedia } from "@mui/material";
 import RegisterImage from "../../../../assets/svg/register.svg";
 import FormSignUp from "../../../organisms/FormSignUp";
-import {
-  getAuth,
-  createUserWithEmailAndPassword,
-} from "../../../../config/Firebase";
+import { connect } from "react-redux";
+import { registerWithEmailApi } from "../../../../config/Redux/Action";
+import {useState} from 'react';
 
-const Register = () => {
+const Register = (props) => {
+  const [values, setValues] = useState({
+    checkPassword: false
+  })
   
   const handleRegister = (username, telpon, email, password) => {
-    const auth = getAuth();
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        const user = userCredential.user;
-        console.log(user);
+    if(password.length < 6){
+      return setValues({
+        ...values,
+        checkPassword: true
       })
-      .catch((error) => {
-        console.log(error);
-      });
+    }
+    setValues({
+      ...values,
+      checkPassword: false
+    })
+    return props.registerWithEmail({email, password})
   };
 
   return (
@@ -45,10 +49,18 @@ const Register = () => {
           alignItems: "center",
         }}
       >
-        <FormSignUp handleInput={handleRegister} />
+        <FormSignUp checkPassword={values.checkPassword} handleInput={handleRegister} />
       </Box>
     </Box>
   );
 };
 
-export default Register;
+const reduxState = (state) => ({
+  isLogin: state.isLogin
+})
+
+const reduxAction = (dispatch) => ({
+  registerWithEmail: (data) => dispatch(registerWithEmailApi(data))
+})
+
+export default connect(reduxState, reduxAction)(Register);

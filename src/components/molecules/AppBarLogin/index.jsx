@@ -72,15 +72,8 @@ const AppBarLogin = () => {
                 display: { xs: "block", md: "none" },
               }}
             >
-              {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
-                </MenuItem>
-              ))}
 
-              {/*--- algoritma navigasi SPA ---*/}
-
-              {/* {pages.map((page) => {
+              {pages.map((page) => {
                 if (page === "Products") {
                   return (
                     <MenuItem key={page} onClick={() => console.log(page)}>
@@ -104,7 +97,7 @@ const AppBarLogin = () => {
                 }
 
                 return 0;
-              })} */}
+              })}
             </Menu>
           </Box>
 
@@ -119,19 +112,8 @@ const AppBarLogin = () => {
             MUTIARA KERAMIK
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            {pages.map((page) => (
-              <Button
-                key={page}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: "white", display: "block" }}
-              >
-                {page}
-              </Button>
-            ))}
 
-            {/*--- algoritma navigasi SPA ---*/}
-
-            {/* {pages.map((page) => {
+            {pages.map((page) => {
               if (page === "Products") {
                 return (
                   <Button
@@ -169,7 +151,7 @@ const AppBarLogin = () => {
               }
 
               return 0;
-            })} */}
+            })}
           </Box>
 
           {/* button login */}

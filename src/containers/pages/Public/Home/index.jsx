@@ -1,6 +1,6 @@
 import AppBarLogin from "../../../../components/molecules/AppBarLogin";
 
-function Home(props) {
+function Home() {
   return (
     <div className="Home">
       <AppBarLogin />

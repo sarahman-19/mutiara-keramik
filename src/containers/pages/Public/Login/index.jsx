@@ -2,25 +2,12 @@ import { Box, CardMedia } from "@mui/material";
 import loginImage from "../../../../assets/svg/login.svg";
 import FormSignIn from "../../../organisms/FormSignIn";
 import { connect } from "react-redux";
-import {
-  getAuth,
-  signInWithEmailAndPassword,
-} from "../../../../config/Firebase";
+import { loginWithEmailApi } from "../../../../config/Redux/Action";
 
-const Login = () => {
+const Login = (props) => {
+
   const handleLogin = (email, password) => {
-    const auth = getAuth();
-    signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        // Signed in
-        const user = userCredential.user;
-        console.log(user)
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log(errorCode, errorMessage)
-      });
+    props.loginWithEmail({email, password})
   };
 
   return (
@@ -58,6 +45,8 @@ const stateRedux = (state) => ({
   isLogin: state.isLogin,
 });
 
-const actionRedux = (dispatch) => ({});
+const actionRedux = (dispatch) => ({
+  loginWithEmail: (data) => dispatch(loginWithEmailApi(data))
+});
 
 export default connect(stateRedux, actionRedux)(Login);

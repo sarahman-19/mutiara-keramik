@@ -1,5 +1,8 @@
 import { useState } from "react";
-import {useNavigate} from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
+import { connect } from "react-redux";
+
+import LoadingButtonComp from "../../../components/atoms/LoadingButtonComp";
 
 import {
   Box,
@@ -19,12 +22,12 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import FacebookIcon from "@mui/icons-material/Facebook";
 
 const FormSignIn = (props) => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const [values, setValues] = useState({
     password: "",
     showPassword: false,
-    email: '',
+    email: "",
   });
 
   const handleChange = (prop) => (event) => {
@@ -68,9 +71,7 @@ const FormSignIn = (props) => {
         />
 
         <FormControl sx={{ mb: 2 }} variant="outlined">
-          <InputLabel htmlFor="passwordInput">
-            Password
-          </InputLabel>
+          <InputLabel htmlFor="passwordInput">Password</InputLabel>
           <OutlinedInput
             size="small"
             id="passwordInput"
@@ -96,16 +97,25 @@ const FormSignIn = (props) => {
             label="Password"
           />
         </FormControl>
-
-        <Button onClick={() => props.handleInput(values.email, values.password)} variant="contained">Login</Button>
-        <Button sx={{ textAlign: "center", mt: 2 }} onClick={() => navigate("/register")} variant="text">
-          <Typography variant="caption">
-            Belum Punya Akun
-          </Typography>
+        <LoadingButtonComp
+          title="Masuk"
+          handleSubmit={() => props.handleInput(values.email, values.password)}
+          loadingStatus={props.Loading}
+        />
+        <Button
+          sx={{ textAlign: "center", mt: 2 }}
+          onClick={() => navigate("/register")}
+          variant="text"
+        >
+          <Typography variant="caption">Belum Punya Akun</Typography>
         </Button>
       </Box>
     </Box>
   );
 };
 
-export default FormSignIn;
+const reduxState = (state) => ({
+  Loading: state.isLoading,
+});
+
+export default connect(reduxState, null)(FormSignIn);
