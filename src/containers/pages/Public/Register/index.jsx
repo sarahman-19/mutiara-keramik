@@ -2,7 +2,7 @@ import { Box, CardMedia } from "@mui/material";
 import RegisterImage from "../../../../assets/svg/register.svg";
 import FormSignUp from "../../../organisms/FormSignUp";
 import { connect } from "react-redux";
-import { registerWithEmailApi } from "../../../../config/Redux/Action";
+import { registerWithEmailApi, saveDataUserApi } from "../../../../config/Redux/Action";
 import {useState, useEffect} from 'react';
 import {useNavigate} from 'react-router-dom';
 import AppBarLogin from "../../../../components/molecules/AppBarLogin";
@@ -20,7 +20,7 @@ const Register = (props) => {
     }
   })
   
-  const handleRegister = (username, telpon, email, password) => {
+  const handleRegister = async (username, phoneNumber, email, password) => {
     if(password.length < 6){
       return setValues({
         ...values,
@@ -31,7 +31,12 @@ const Register = (props) => {
       ...values,
       checkPassword: false
     })
-    return props.registerWithEmail({email, password})
+    const response = await props.registerWithEmail({username, phoneNumber, email, password})
+    if(response !== false){
+      props.saveDataUser(response.uid, response)
+    }else{
+      console.log(response)
+    }
   };
 
   return (
@@ -73,7 +78,8 @@ const reduxState = (state) => ({
 })
 
 const reduxAction = (dispatch) => ({
-  registerWithEmail: (data) => dispatch(registerWithEmailApi(data))
+  registerWithEmail: (data) => dispatch(registerWithEmailApi(data)),
+  saveDataUser: (uid, dataUser) => dispatch(saveDataUserApi(uid, dataUser))
 })
 
 export default connect(reduxState, reduxAction)(Register);

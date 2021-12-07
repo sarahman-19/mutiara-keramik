@@ -6,6 +6,7 @@ import {
   loginWithEmailApi,
   loginWithFacebookApi,
   loginWithGoogleApi,
+  saveDataUserApi
 } from "../../../../config/Redux/Action";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
@@ -19,16 +20,31 @@ const Login = (props) => {
     }
   });
 
-  const handleLoginFacebook = () => {
-    props.loginWithFacebook();
+  const handleLoginFacebook = async () => {
+    const response = await props.loginWithFacebook()
+    if(response !== false){
+      props.saveDataUser(response.uid, response)
+    }else{
+      console.log(response)
+    }
   };
 
-  const handleLoginWithGoole = () => {
-    props.loginWithGoole();
+  const handleLoginWithGoogle = async () => {
+    const response = await props.loginWithGoole();
+    if(response !== false){
+      props.saveDataUser(response.uid, response)
+    }else{
+      console.log(response)
+    }
   };
 
-  const handleLogin = (email, password) => {
-    props.loginWithEmail({ email, password });
+  const handleLogin = async (email, password) => {
+    const response = await props.loginWithEmail({ email, password });
+    if(response){
+      console.log(true)
+    }else{
+      console.log(false)
+    }
   };
 
   return (
@@ -59,7 +75,7 @@ const Login = (props) => {
           }}
         >
           <FormSignIn
-            handleLoginWithGoole={handleLoginWithGoole}
+            handleLoginWithGoole={handleLoginWithGoogle}
             handleLoginWithFacebook={handleLoginFacebook}
             handleInput={handleLogin}
           />
@@ -71,12 +87,14 @@ const Login = (props) => {
 
 const stateRedux = (state) => ({
   isLogin: state.isLogin,
+  dataUser: state.dataUser
 });
 
 const actionRedux = (dispatch) => ({
   loginWithEmail: (data) => dispatch(loginWithEmailApi(data)),
   loginWithFacebook: () => dispatch(loginWithFacebookApi()),
   loginWithGoole: () => dispatch(loginWithGoogleApi()),
+  saveDataUser: (uid, dataUser) => dispatch(saveDataUserApi(uid, dataUser))
 });
 
 export default connect(stateRedux, actionRedux)(Login);

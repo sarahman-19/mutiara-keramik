@@ -1,13 +1,13 @@
-// import { connect } from "react-redux";
-// import {useEffect} from 'react';
+const checkStorage = () => typeof Storage !== "undefined";
 
-// const LocalStorage = (props) => {
-//     useEffect(() => console.log(props.isLogin, props.dataUser), [props])
-// };
+export const saveToStorage = (key, value) => {
+  if (checkStorage()) {
+    return localStorage.setItem(key, value);
+  } else {
+    return console.log("perangkat tidak mensuport penyimpanan");
+  }
+};
 
-// const reduxState = (state) => ({
-//   isLogin: state.isLogin,
-//   dataUser: state.dataUser,
-// });
+export const getDataStorage = (key) => localStorage.getItem(key);
 
-// export default connect(reduxState, null)(LocalStorage);
+export const removeDataStorage = (key) => localStorage.removeItem(key);

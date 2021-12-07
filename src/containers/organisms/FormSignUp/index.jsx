@@ -29,7 +29,7 @@ const FormSignUp = (props) => {
     showPassword: false,
     email: "",
     username: "",
-    telpon: ""
+    phoneNumber: ""
   });
 
   const handleChange = (prop) => (event) => {
@@ -76,7 +76,7 @@ const FormSignUp = (props) => {
           pattern="[0-9]{4}-[0-9]{4}-[0-9]{4}"
           label="Nomor Telpon"
           variant="outlined"
-          onChange={handleChange("telpon")}
+          onChange={handleChange("phoneNumber")}
           size="small"
         />
 
@@ -130,7 +130,7 @@ const FormSignUp = (props) => {
           handleSubmit={() =>
             props.handleInput(
               values.username,
-              values.telpon,
+              values.phoneNumber,
               values.email,
               values.password
             )}

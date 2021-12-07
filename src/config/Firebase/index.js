@@ -6,8 +6,9 @@ import {
   signInWithEmailAndPassword,
   FacebookAuthProvider,
   signInWithPopup,
-  GoogleAuthProvider
+  GoogleAuthProvider,
 } from "firebase/auth";
+import { getDatabase, ref, set } from "firebase/database";
 
 const firebaseConfig = {
   apiKey: "AIzaSyB3Hv98TPw3tOPjnL6nD_z1184hK9MVP34",
@@ -17,10 +18,12 @@ const firebaseConfig = {
   messagingSenderId: "867832549439",
   appId: "1:867832549439:web:93e5e6a570f743e299688a",
   measurementId: "G-N1REGZPE28",
+  databaseURL: "https://mutiara-keramik-default-rtdb.asia-southeast1.firebasedatabase.app/"
 };
 
 const firebaseApp = initializeApp(firebaseConfig);
 const analytics = getAnalytics(firebaseApp);
+const database = getDatabase();
 
 export {
   firebaseApp,
@@ -30,5 +33,8 @@ export {
   signInWithEmailAndPassword,
   FacebookAuthProvider,
   signInWithPopup,
-  GoogleAuthProvider
+  GoogleAuthProvider,
+  database,
+  ref, 
+  set
 };
