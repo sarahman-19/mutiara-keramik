@@ -15,7 +15,7 @@ import {useNavigate} from 'react-router-dom';
 
 const pages = ["Products", "Pricing", "Blog"];
 
-const AppBarLogin = () => {
+const AppBarLogin = (props) => {
   const navigate = useNavigate()
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -33,10 +33,11 @@ const AppBarLogin = () => {
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Typography
+            onClick={() => navigate('/')}
             variant="h6"
             noWrap
             component="div"
-            sx={{ mr: 2, display: { xs: "none", md: "flex" } }}
+            sx={{cursor: 'pointer', mr: 2, display: { xs: "none", md: "flex" } }}
           >
             MUTIARA KERAMIK
           </Typography>
@@ -107,7 +108,8 @@ const AppBarLogin = () => {
             variant="h6"
             noWrap
             component="div"
-            sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}
+            sx={{ cursor: 'pointer', flexGrow: 1, display: { xs: "flex", md: "none" } }}
+            onClick={() => navigate('/')}
           >
             MUTIARA KERAMIK
           </Typography>
@@ -157,7 +159,7 @@ const AppBarLogin = () => {
           {/* button login */}
 
           <Box sx={{ flexGrow: 0 }}>
-            <Button onClick={() => navigate('/login')} color="inherit">Login</Button>
+            <Button onClick={() => navigate(`${props.link}`)} color="inherit">{props.title}</Button>
           </Box>
         </Toolbar>
       </Container>

@@ -6,6 +6,7 @@ import {
   signInWithEmailAndPassword,
   FacebookAuthProvider,
   signInWithPopup,
+  GoogleAuthProvider
 } from "firebase/auth";
 
 const firebaseConfig = {
@@ -29,4 +30,5 @@ export {
   signInWithEmailAndPassword,
   FacebookAuthProvider,
   signInWithPopup,
+  GoogleAuthProvider
 };

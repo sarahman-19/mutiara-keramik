@@ -59,6 +59,7 @@ const FormSignUp = (props) => {
           margin="dense"
           id="UsernameInput"
           label="Username"
+          autoComplete="off"
           type="text"
           variant="outlined"
           onChange={handleChange("username")}
@@ -69,6 +70,7 @@ const FormSignUp = (props) => {
           sx={{ mb: 2 }}
           margin="dense"
           id="TelponInput"
+          autoComplete="off"
           type="tel"
           placeholder="0812-3456-7890"
           pattern="[0-9]{4}-[0-9]{4}-[0-9]{4}"
@@ -83,6 +85,7 @@ const FormSignUp = (props) => {
           margin="dense"
           id="EmailInput"
           label="Email"
+          autoComplete="off"
           type="email"
           variant="outlined"
           onChange={handleChange("email")}
@@ -139,7 +142,7 @@ const FormSignUp = (props) => {
           onClick={() => navigate("/login")}
           variant="text"
         >
-          <Typography variant="caption">Sudah Punya Akun</Typography>
+          <Typography variant="caption">Punya Akun</Typography>
         </Button>
       </Box>
     </Box>

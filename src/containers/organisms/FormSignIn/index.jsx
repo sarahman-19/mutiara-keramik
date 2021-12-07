@@ -20,6 +20,7 @@ import {
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import FacebookIcon from "@mui/icons-material/Facebook";
+import GoogleIcon from "@mui/icons-material/Google";
 
 const FormSignIn = (props) => {
   const navigate = useNavigate();
@@ -51,8 +52,21 @@ const FormSignIn = (props) => {
         <Typography variant="h3">Masuk</Typography>
       </Box>
 
-      <Box sx={{ display: "flex", justifyContent: "center", mb: 2 }}>
-        <Button onClick={props.handleLoginWithFacebook} variant="contained" startIcon={<FacebookIcon />}>
+      <Box sx={{ display: "flex", flexDirection: "column", mt: 1, mb: 2 }}>
+        <Button
+          sx={{ mb: 2 }}
+          color="inherit"
+          variant="contained"
+          startIcon={<GoogleIcon />}
+          onClick={props.handleLoginWithGoole}
+        >
+          Masuk Dengan Google
+        </Button>
+        <Button
+          onClick={props.handleLoginWithFacebook}
+          variant="contained"
+          startIcon={<FacebookIcon />}
+        >
           Masuk Dengan Facebook
         </Button>
       </Box>
@@ -67,6 +81,7 @@ const FormSignIn = (props) => {
           label="Email"
           variant="outlined"
           onChange={handleChange("email")}
+          autoComplete="off"
           size="small"
         />
 
@@ -107,9 +122,9 @@ const FormSignIn = (props) => {
           onClick={() => navigate("/register")}
           variant="text"
         >
-          <Typography variant="caption">Belum Punya Akun</Typography>
+          <Typography variant="caption">Buat Akun</Typography>
         </Button>
-      </Box>
+      </Box>     
     </Box>
   );
 };

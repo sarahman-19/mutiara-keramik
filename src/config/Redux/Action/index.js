@@ -4,6 +4,7 @@ import {
   createUserWithEmailAndPassword,
   FacebookAuthProvider,
   signInWithPopup,
+  GoogleAuthProvider,
 } from "../../Firebase";
 
 export const loginWithEmailApi = (data) => async (dispatch) => {
@@ -94,16 +95,18 @@ export const LogoutAccount = () => {
 export const loginWithFacebookApi = () => (dispatch) => {
   const provider = new FacebookAuthProvider();
   const auth = getAuth();
-
-  return signInWithPopup(auth, provider)
+  signInWithPopup(auth, provider)
     .then((result) => {
       const user = result.user;
-
-      console.log("user", user);
       const credential = FacebookAuthProvider.credentialFromResult(result);
       const accessToken = credential.accessToken;
 
-      console.log("access token", accessToken);
+      dispatch({
+        type: "CHANGE_LOGIN",
+        value: true,
+      });
+
+      console.log(user, accessToken);
     })
     .catch((error) => {
       const errorCode = error.code;
@@ -112,5 +115,30 @@ export const loginWithFacebookApi = () => (dispatch) => {
       const credential = FacebookAuthProvider.credentialFromError(error);
 
       console.log(errorCode, errorMessage, email, credential);
+    });
+};
+
+export const loginWithGoogleApi = () => (dispatch) => {
+  const provider = new GoogleAuthProvider();
+  const auth = getAuth();
+  signInWithPopup(auth, provider)
+    .then((result) => {
+      const credential = GoogleAuthProvider.credentialFromResult(result);
+      const token = credential.accessToken;
+      const user = result.user;
+      dispatch({
+        type: "CHANGE_LOGIN",
+        value: true,
+      });
+      console.log('token', token)
+      console.log('user', user)
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      const email = error.email;
+      const credential = GoogleAuthProvider.credentialFromError(error);
+
+      console.log(errorCode, errorMessage, email, credential)
     });
 };

@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import { registerWithEmailApi } from "../../../../config/Redux/Action";
 import {useState, useEffect} from 'react';
 import {useNavigate} from 'react-router-dom';
+import AppBarLogin from "../../../../components/molecules/AppBarLogin";
 
 const Register = (props) => {
   const navigate = useNavigate()
@@ -34,7 +35,9 @@ const Register = (props) => {
   };
 
   return (
-    <Box sx={{ display: "flex", height: "100vh", width: "100vw" }}>
+    <Box sx={{ height: "100vh", width: "100vw"}}>
+    <AppBarLogin link="/login" title="Masuk" />
+    <Box sx={{ display: "flex", pt:1 }}>
       <Box
         sx={{
           flexGrow: 1,
@@ -61,6 +64,7 @@ const Register = (props) => {
         <FormSignUp checkPassword={values.checkPassword} handleInput={handleRegister} />
       </Box>
     </Box>
+  </Box>
   );
 };
 
