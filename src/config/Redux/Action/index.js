@@ -97,12 +97,10 @@ export const registerWithEmailApi = (data) => (dispatch) => {
   });
 };
 
-export const LogoutAccount = () => {
-  return {
-    type: "CHANGE_LOGIN",
-    value: false,
-  };
-};
+export const LogoutAccount = () => ({
+  type: "CHANGE_LOGIN",
+  value: false,
+});
 
 export const loginWithFacebookApi = () => (dispatch) => {
   return new Promise((resolve, reject) => {

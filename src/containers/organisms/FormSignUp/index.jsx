@@ -58,7 +58,7 @@ const FormSignUp = (props) => {
           sx={{ mb: 2 }}
           margin="dense"
           id="UsernameInput"
-          label="Username"
+          label="Nama"
           autoComplete="off"
           type="text"
           variant="outlined"
@@ -139,7 +139,7 @@ const FormSignUp = (props) => {
 
         <Button
           sx={{ textAlign: "center", mt: 2 }}
-          onClick={() => navigate("/login")}
+          onClick={() => navigate("/masuk")}
           variant="text"
         >
           <Typography variant="caption">Punya Akun</Typography>

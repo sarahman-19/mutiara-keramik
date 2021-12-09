@@ -49,7 +49,7 @@ const Login = (props) => {
 
   return (
     <Box sx={{ height: "100vh", width: "100vw" }}>
-      <AppBarLogin link="/register" title="Daftar" />
+      <AppBarLogin link="/daftar" title="Daftar" />
       <Box sx={{ display: "flex", mt: 2 }}>
         <Box
           sx={{

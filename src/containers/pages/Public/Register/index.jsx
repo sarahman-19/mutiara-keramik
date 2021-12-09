@@ -41,7 +41,7 @@ const Register = (props) => {
 
   return (
     <Box sx={{ height: "100vh", width: "100vw"}}>
-    <AppBarLogin link="/login" title="Masuk" />
+    <AppBarLogin link="/masuk" title="Masuk" />
     <Box sx={{ display: "flex", pt:1 }}>
       <Box
         sx={{

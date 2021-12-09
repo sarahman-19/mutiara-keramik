@@ -13,7 +13,7 @@ import {
 import MenuIcon from "@mui/icons-material/Menu";
 import {useNavigate} from 'react-router-dom';
 
-const pages = ["Products", "Pricing", "Blog"];
+const pages = ["produk", "kategori", "inspirasi"];
 
 const AppBarLogin = (props) => {
   const navigate = useNavigate()
@@ -75,23 +75,23 @@ const AppBarLogin = (props) => {
             >
 
               {pages.map((page) => {
-                if (page === "Products") {
+                if (page === "produk") {
                   return (
-                    <MenuItem key={page} onClick={() => console.log(page)}>
+                    <MenuItem key={page} onClick={() => navigate(`/${page}`)}>
                       <Typography textAlign="center">{page}</Typography>
                     </MenuItem>
                   );
                 }
-                if (page === "Pricing") {
+                if (page === "kategori") {
                   return (
-                    <MenuItem key={page} onClick={() => console.log(page)}>
+                    <MenuItem key={page} onClick={() => navigate(`/${page}`)}>
                       <Typography textAlign="center">{page}</Typography>
                     </MenuItem>
                   );
                 }
-                if (page === "Blog") {
+                if (page === "inspirasi") {
                   return (
-                    <MenuItem key={page} onClick={() => console.log(page)}>
+                    <MenuItem key={page} onClick={() => navigate(`/${page}`)}>
                       <Typography textAlign="center">{page}</Typography>
                     </MenuItem>
                   );
@@ -116,11 +116,11 @@ const AppBarLogin = (props) => {
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
 
             {pages.map((page) => {
-              if (page === "Products") {
+              if (page === "produk") {
                 return (
                   <Button
                     key={page}
-                    onClick={() => console.log(page)}
+                    onClick={() => navigate(`/${page}`)}
                     sx={{ my: 2, color: "white", display: "block" }}
                   >
                     {page}
@@ -128,11 +128,11 @@ const AppBarLogin = (props) => {
                 );
               }
 
-              if (page === "Pricing") {
+              if (page === "kategori") {
                 return (
                   <Button
                     key={page}
-                    onClick={() => console.log(page)}
+                    onClick={() => navigate(`/${page}`)}
                     sx={{ my: 2, color: "white", display: "block" }}
                   >
                     {page}
@@ -140,11 +140,11 @@ const AppBarLogin = (props) => {
                 );
               }
 
-              if (page === "Blog") {
+              if (page === "inspirasi") {
                 return (
                   <Button
                     key={page}
-                    onClick={() => console.log(page)}
+                    onClick={() => navigate(`/${page}`)}
                     sx={{ my: 2, color: "white", display: "block" }}
                   >
                     {page}

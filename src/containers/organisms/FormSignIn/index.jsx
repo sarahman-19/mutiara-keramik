@@ -119,7 +119,7 @@ const FormSignIn = (props) => {
         />
         <Button
           sx={{ textAlign: "center", mt: 2 }}
-          onClick={() => navigate("/register")}
+          onClick={() => navigate("/daftar")}
           variant="text"
         >
           <Typography variant="caption">Buat Akun</Typography>

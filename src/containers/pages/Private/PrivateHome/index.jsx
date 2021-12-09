@@ -1,8 +1,18 @@
 import AppBarPrivate from "../../../../components/molecules/AppBarPrivate";
 import {connect} from 'react-redux';
 import { LogoutAccount} from "../../../../config/Redux/Action";
+import {useEffect} from 'react';
+import {useNavigate} from 'react-router-dom';
 
 function PrivateHome(props) {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if(props.statusLogin !== true){
+      navigate('/')
+    }
+  }, [navigate, props.statusLogin])
+
   return (
     <div className="PrivateHome">
       <AppBarPrivate handleLogout={props.logout} />
@@ -14,6 +24,7 @@ function PrivateHome(props) {
 }
 
 const reduxState = (state) => ({
+  statusLogin: state.isLogin,
   dataUser: state.dataUser
 })
 

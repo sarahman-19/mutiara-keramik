@@ -7,15 +7,16 @@ import Register from "../Public/Register";
 import { connect } from "react-redux";
 import ProductPage from "../Public/Product";
 import NotFound from '../Public/NotFound';
+import ProductPagePrivate from "../Private/ProductPrivate";
 
 function App(props) {
   return (
       <Router>
         <Routes>
           <Route path="/" index element={props.Login ? <PrivateHome /> : <Home />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/product" element={<ProductPage />} />
+          <Route path="/masuk" element={<Login />} />
+          <Route path="/daftar" element={<Register />} />
+          <Route path="/produk" element={props.Login ? <ProductPagePrivate /> : <ProductPage />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Router>
