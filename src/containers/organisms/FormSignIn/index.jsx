@@ -65,6 +65,7 @@ const FormSignIn = (props) => {
         <Button
           onClick={props.handleLoginWithFacebook}
           variant="contained"
+          color="inherit"
           startIcon={<FacebookIcon />}
         >
           Masuk Dengan Facebook

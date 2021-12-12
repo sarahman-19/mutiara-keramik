@@ -36,5 +36,5 @@ export {
   GoogleAuthProvider,
   database,
   ref, 
-  set
+  set,
 };
