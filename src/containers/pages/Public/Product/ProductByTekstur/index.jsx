@@ -32,9 +32,9 @@ const ProductByTekstur = (props) => {
           {data.map((d) => {
             return (
               <CardProduct
-                key={d.gambar}
+                key={d.desain}
                 id={d.id}
-                image={d.gambar}
+                image={d.desain}
                 likes={d.favorite}
                 size={d.ukuran}
               />

@@ -223,15 +223,6 @@ export const getProductsByTekstur = (IDtekstur) => (dispatch) => {
 export const getAllDataVariantAndProduct = (IDProduct) => async (dispatch) => {
   return new Promise(async (resolve, reject) => {
     const data = [];
-    // data variant
-    const refVariant = query(
-      collectionGroup(dbFirestore, "variant"),
-      where("IDProduct", "==", IDProduct)
-    );
-    const queryVariant = await getDocs(refVariant);
-    queryVariant.forEach((doc) => {
-      data.push(doc.data());
-    });
     // data product
     const refProduct = query(
       collection(dbFirestore, "products"),
@@ -239,6 +230,15 @@ export const getAllDataVariantAndProduct = (IDProduct) => async (dispatch) => {
     );
     const queryProduct = await getDocs(refProduct);
     queryProduct.forEach((doc) => {
+      data.push(doc.data());
+    });
+    // data variant
+    const refVariant = query(
+      collectionGroup(dbFirestore, "variant"),
+      where("IDProduct", "==", IDProduct)
+    );
+    const queryVariant = await getDocs(refVariant);
+    queryVariant.forEach((doc) => {
       data.push(doc.data());
     });
     resolve(data);

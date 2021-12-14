@@ -12,7 +12,7 @@ import {
 } from "../../../../config/Redux/Action";
 import loginImage from "../../../../assets/svg/login.svg";
 import FormSignIn from "../../../organisms/FormSignIn";
-import AppBarLogin from "../../../../components/molecules/AppBarLogin";
+import AppBar from "../../../../components/molecules/AppBar";
 
 // material ui
 import { Box, CardMedia } from "@mui/material";
@@ -55,7 +55,7 @@ const Login = (props) => {
 
   return (
     <Box sx={{ height: "100vh", width: "100vw" }}>
-      <AppBarLogin link="/daftar" title="Daftar" />
+      <AppBar loginStatus={props.isLogin} link="/daftar" title="Daftar" />
       <Box sx={{ display: "flex", mt: 2 }}>
         <Box
           sx={{
