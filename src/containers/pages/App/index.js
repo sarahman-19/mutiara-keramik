@@ -8,7 +8,7 @@ import { connect } from "react-redux";
 import ProductPage from "../Public/Product";
 import ProductByTekstur from "../Public/Product/ProductByTekstur";
 import NotFound from "../Public/NotFound";
-import ProductPagePrivate from "../Private/ProductPrivate";
+import DetailProductPage from "../Public/DetailProduct";
 
 function App(props) {
   return (
@@ -21,10 +21,8 @@ function App(props) {
         />
         <Route path="/masuk" element={<Login />} />
         <Route path="/daftar" element={<Register />} />
-        <Route
-          path="/produk"
-          element={props.Login ? <ProductPagePrivate /> : <ProductPage />}
-        />
+        <Route path="/produk" element={<ProductPage />} />
+        <Route path="/produk/:IDProduct" element={<DetailProductPage />} />
         <Route path="tekstur/:IDTekstur" element={<ProductByTekstur />} />
         <Route path="*" element={<NotFound />} />
       </Routes>

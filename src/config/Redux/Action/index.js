@@ -15,6 +15,7 @@ import {
   where,
   dbFirestore,
   // getDoc,
+  collectionGroup,
   doc,
   // set,
 } from "../../Firebase";
@@ -192,7 +193,7 @@ export const saveDataUserApi = (uid, data) => (dispatch) => {
 };
 
 export const getAllDataProduct = () => (dispatch) => {
-  return new Promise( async (resolve, reject) => {
+  return new Promise(async (resolve, reject) => {
     const data = [];
     const querySnapshot = await getDocs(collection(dbFirestore, "products"));
     querySnapshot.forEach((doc) => {
@@ -212,6 +213,32 @@ export const getProductsByTekstur = (IDtekstur) => (dispatch) => {
     const data = [];
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
+      data.push(doc.data());
+    });
+    resolve(data);
+    reject(false);
+  });
+};
+
+export const getAllDataVariantAndProduct = (IDProduct) => async (dispatch) => {
+  return new Promise(async (resolve, reject) => {
+    const data = [];
+    // data variant
+    const refVariant = query(
+      collectionGroup(dbFirestore, "variant"),
+      where("IDProduct", "==", IDProduct)
+    );
+    const queryVariant = await getDocs(refVariant);
+    queryVariant.forEach((doc) => {
+      data.push(doc.data());
+    });
+    // data product
+    const refProduct = query(
+      collection(dbFirestore, "products"),
+      where("id", "==", IDProduct)
+    );
+    const queryProduct = await getDocs(refProduct);
+    queryProduct.forEach((doc) => {
       data.push(doc.data());
     });
     resolve(data);

@@ -1,10 +1,9 @@
 import { Box } from "@mui/material";
-import AppBarSearch from "../../../../components/molecules/AppBarSearch";
 import { connect } from "react-redux";
 import { getAllDataProduct } from "../../../../config/Redux/Action";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import CardProduct from "../../../../components/molecules/CardProduct";
-import { useState } from "react";
+import AppBarProduct from "../../../../components/molecules/AppBarProduct";
 
 const ProductPage = (props) => {
   const [data, setData] = useState([]);
@@ -15,7 +14,7 @@ const ProductPage = (props) => {
 
   return (
     <Box>
-      <AppBarSearch />
+      <AppBarProduct loginStatus={props.statusLogin} />
       <Box sx={{ display: "flex", flexWrap: "wrap", justifyContent: "center" }}>
         <Box
           sx={{
@@ -28,9 +27,9 @@ const ProductPage = (props) => {
           {data.map((d) => {
             return (
               <CardProduct
-                key={d.gambar.desain}
-                title={d.title}
-                image={d.gambar.desain}
+                key={d.gambar}
+                id={d.id}
+                image={d.gambar}
                 likes={d.favorite}
                 size={d.ukuran}
               />
@@ -42,8 +41,12 @@ const ProductPage = (props) => {
   );
 };
 
+const stateRedux = (state) => ({
+  statusLogin: state.isLogin,
+});
+
 const stateAction = (dispatch) => ({
   getAllProduct: () => dispatch(getAllDataProduct()),
 });
 
-export default connect(null, stateAction)(ProductPage);
+export default connect(stateRedux, stateAction)(ProductPage);

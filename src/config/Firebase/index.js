@@ -9,6 +9,7 @@ import {
   query,
   where,
   addDoc,
+  collectionGroup,
   setDoc
 } from "firebase/firestore";
 import {
@@ -56,6 +57,7 @@ export {
   getDoc,
   doc,
   ref,
+  collectionGroup,
   set,
   addDoc,
   setDoc
