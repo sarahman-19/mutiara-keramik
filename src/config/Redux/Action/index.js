@@ -5,12 +5,21 @@ import {
   FacebookAuthProvider,
   signInWithPopup,
   GoogleAuthProvider,
-  database,
-  ref,
-  set,
+  // dbRealtime,
+  // ref,
+  // addDoc,
+  getDocs,
+  setDoc,
+  collection,
+  query,
+  where,
+  dbFirestore,
+  // getDoc,
+  doc,
+  // set,
 } from "../../Firebase";
 
-export const loginWithEmailApi = (data) => async (dispatch) => {
+export const loginWithEmailApi = (data) => (dispatch) => {
   return new Promise((resolve, reject) => {
     dispatch({
       type: "CHANGE_LOADING",
@@ -175,6 +184,48 @@ export const loginWithGoogleApi = () => (dispatch) => {
 };
 
 export const saveDataUserApi = (uid, data) => (dispatch) => {
-  set(ref(database, `users/${uid}/data/`), data);
-  console.log(uid, data);
+  try {
+    setDoc(doc(dbFirestore, "users", uid), data);
+  } catch (err) {
+    console.error("Error adding document: ", err);
+  }
+};
+
+export const getAllDataProduct = () => (dispatch) => {
+  return new Promise( async (resolve, reject) => {
+    const data = [];
+    const querySnapshot = await getDocs(collection(dbFirestore, "products"));
+    querySnapshot.forEach((doc) => {
+      data.push(doc.data());
+    });
+    resolve(data);
+    reject(false);
+  });
+};
+
+export const getProductsByTekstur = (IDtekstur) => (dispatch) => {
+  return new Promise(async (resolve, reject) => {
+    const q = query(
+      collection(dbFirestore, "products"),
+      where("tekstur", "==", IDtekstur)
+    );
+    const data = [];
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      data.push(doc.data());
+    });
+    resolve(data);
+    reject(false);
+  });
+};
+
+export const getProductsByBrand = (brand) => async (dispatch) => {
+  const q = query(
+    collection(dbFirestore, "products"),
+    where("brand", "==", brand)
+  );
+  const querySnapshot = await getDocs(q);
+  querySnapshot.forEach((doc) => {
+    console.log(doc.id, " => ", doc.data());
+  });
 };

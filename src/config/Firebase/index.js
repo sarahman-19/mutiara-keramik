@@ -1,6 +1,17 @@
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import {
+  getFirestore,
+  collection,
+  getDocs,
+  doc,
+  getDoc,
+  query,
+  where,
+  addDoc,
+  setDoc
+} from "firebase/firestore";
+import {
   getAuth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -18,12 +29,14 @@ const firebaseConfig = {
   messagingSenderId: "867832549439",
   appId: "1:867832549439:web:93e5e6a570f743e299688a",
   measurementId: "G-N1REGZPE28",
-  databaseURL: "https://mutiara-keramik-default-rtdb.asia-southeast1.firebasedatabase.app/"
+  databaseURL:
+    "https://mutiara-keramik-default-rtdb.asia-southeast1.firebasedatabase.app/",
 };
 
 const firebaseApp = initializeApp(firebaseConfig);
 const analytics = getAnalytics(firebaseApp);
-const database = getDatabase();
+const dbRealtime = getDatabase();
+const dbFirestore = getFirestore();
 
 export {
   firebaseApp,
@@ -34,7 +47,16 @@ export {
   FacebookAuthProvider,
   signInWithPopup,
   GoogleAuthProvider,
-  database,
-  ref, 
+  dbRealtime,
+  query,
+  where,
+  dbFirestore,
+  collection,
+  getDocs,
+  getDoc,
+  doc,
+  ref,
   set,
+  addDoc,
+  setDoc
 };

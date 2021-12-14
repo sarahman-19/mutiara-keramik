@@ -1,20 +1,15 @@
+// module
 import * as React from "react";
-import { AppBar, Button } from "@mui/material";
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
-import Badge from "@mui/material/Badge";
-import MenuItem from "@mui/material/MenuItem";
-import Menu from "@mui/material/Menu";
+import { AppBar, Button, Box, Toolbar, IconButton, Typography, Badge, MenuItem, Menu } from "@mui/material";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import MenuIcon from '@mui/icons-material/Menu';
-
 import { useNavigate } from "react-router-dom";
-import {LogoutAccount} from '../../../config/Redux/Action';
 import {connect} from 'react-redux';
+
+// local module
+import {LogoutAccount} from '../../../config/Redux/Action';
 
 const pages = ["produk", "kategori", "inspirasi"];
 

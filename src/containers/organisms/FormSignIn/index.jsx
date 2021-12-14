@@ -1,9 +1,12 @@
+// module
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { connect } from "react-redux";
 
+// local module
 import LoadingButtonComp from "../../../components/atoms/LoadingButtonComp";
 
+// material ui
 import {
   Box,
   TextField,
@@ -17,6 +20,7 @@ import {
   Divider,
 } from "@mui/material";
 
+// material icon
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import FacebookIcon from "@mui/icons-material/Facebook";
@@ -24,7 +28,6 @@ import GoogleIcon from "@mui/icons-material/Google";
 
 const FormSignIn = (props) => {
   const navigate = useNavigate();
-
   const [values, setValues] = useState({
     password: "",
     showPassword: false,
@@ -52,6 +55,7 @@ const FormSignIn = (props) => {
         <Typography variant="h3">Masuk</Typography>
       </Box>
 
+      {/* login with provider */}
       <Box sx={{ display: "flex", flexDirection: "column", mt: 1, mb: 2 }}>
         <Button
           sx={{ mb: 2 }}
@@ -74,6 +78,7 @@ const FormSignIn = (props) => {
 
       <Divider>atau</Divider>
 
+      {/* login with email */}
       <Box sx={{ display: "flex", flexDirection: "column" }}>
         <TextField
           sx={{ mb: 2 }}
@@ -85,7 +90,6 @@ const FormSignIn = (props) => {
           autoComplete="off"
           size="small"
         />
-
         <FormControl sx={{ mb: 2 }} variant="outlined">
           <InputLabel htmlFor="passwordInput">Password</InputLabel>
           <OutlinedInput
@@ -125,7 +129,7 @@ const FormSignIn = (props) => {
         >
           <Typography variant="caption">Buat Akun</Typography>
         </Button>
-      </Box>     
+      </Box>
     </Box>
   );
 };

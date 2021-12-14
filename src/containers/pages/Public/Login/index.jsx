@@ -1,19 +1,25 @@
-import { Box, CardMedia } from "@mui/material";
-import loginImage from "../../../../assets/svg/login.svg";
-import FormSignIn from "../../../organisms/FormSignIn";
+// module
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { connect } from "react-redux";
+
+// local module
 import {
   loginWithEmailApi,
   loginWithFacebookApi,
   loginWithGoogleApi,
-  saveDataUserApi
+  saveDataUserApi,
 } from "../../../../config/Redux/Action";
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import loginImage from "../../../../assets/svg/login.svg";
+import FormSignIn from "../../../organisms/FormSignIn";
 import AppBarLogin from "../../../../components/molecules/AppBarLogin";
+
+// material ui
+import { Box, CardMedia } from "@mui/material";
 
 const Login = (props) => {
   const navigate = useNavigate();
+
   useEffect(() => {
     if (props.isLogin) {
       navigate("/");
@@ -21,29 +27,29 @@ const Login = (props) => {
   });
 
   const handleLoginFacebook = async () => {
-    const response = await props.loginWithFacebook()
-    if(response !== false){
-      props.saveDataUser(response.uid, response)
-    }else{
-      console.log(response)
+    const response = await props.loginWithFacebook();
+    if (response !== false) {
+      props.saveDataUser(response.uid, response);
+    } else {
+      console.log(response);
     }
   };
 
   const handleLoginWithGoogle = async () => {
     const response = await props.loginWithGoole();
-    if(response !== false){
-      props.saveDataUser(response.uid, response)
-    }else{
-      console.log(response)
+    if (response !== false) {
+      props.saveDataUser(response.uid, response);
+    } else {
+      console.log(response);
     }
   };
 
   const handleLogin = async (email, password) => {
     const response = await props.loginWithEmail({ email, password });
-    if(response){
-      console.log(true)
-    }else{
-      console.log(false)
+    if (response) {
+      console.log(true);
+    } else {
+      console.log(false);
     }
   };
 
@@ -87,14 +93,14 @@ const Login = (props) => {
 
 const stateRedux = (state) => ({
   isLogin: state.isLogin,
-  dataUser: state.dataUser
+  dataUser: state.dataUser,
 });
 
 const actionRedux = (dispatch) => ({
   loginWithEmail: (data) => dispatch(loginWithEmailApi(data)),
   loginWithFacebook: () => dispatch(loginWithFacebookApi()),
   loginWithGoole: () => dispatch(loginWithGoogleApi()),
-  saveDataUser: (uid, dataUser) => dispatch(saveDataUserApi(uid, dataUser))
+  saveDataUser: (uid, dataUser) => dispatch(saveDataUserApi(uid, dataUser)),
 });
 
 export default connect(stateRedux, actionRedux)(Login);

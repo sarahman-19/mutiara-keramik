@@ -1,17 +1,21 @@
 import { Box } from "@mui/material";
-import AppBarSearch from "../../../../components/molecules/AppBarSearch";
+import AppBarSearch from "../../../../../components/molecules/AppBarSearch";
 import { connect } from "react-redux";
-import { getAllDataProduct } from "../../../../config/Redux/Action";
+import { getProductsByTekstur } from "../../../../../config/Redux/Action";
 import { useEffect } from "react";
-import CardProduct from "../../../../components/molecules/CardProduct";
+import CardProduct from "../../../../../components/molecules/CardProduct";
+import { useParams } from "react-router-dom";
 import { useState } from "react";
 
-const ProductPage = (props) => {
+const ProductByTekstur = (props) => {
   const [data, setData] = useState([]);
+  const params = useParams();
 
   useEffect(() => {
-    props.getAllProduct().then((response) => setData(response));
-  }, [props]);
+    props
+      .getDataByTekstur(params.IDTekstur)
+      .then((response) => setData(response));
+  }, [params, props]);
 
   return (
     <Box>
@@ -43,7 +47,7 @@ const ProductPage = (props) => {
 };
 
 const stateAction = (dispatch) => ({
-  getAllProduct: () => dispatch(getAllDataProduct()),
+  getDataByTekstur: (tekstur) => dispatch(getProductsByTekstur(tekstur)),
 });
 
-export default connect(null, stateAction)(ProductPage);
+export default connect(null, stateAction)(ProductByTekstur);

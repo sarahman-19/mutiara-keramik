@@ -3,31 +3,38 @@ import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import ButtonBase from '@mui/material/ButtonBase';
 import Typography from '@mui/material/Typography';
+import {useNavigate} from 'react-router-dom';
 
 const images = [
   {
     url: 'https://ik.imagekit.io/sarahman19/static/marble-g69ae08c2b_640_EXa9LqPs4l1.jpg?updatedAt=1639274999638',
     title: 'Marble',
+    id: 'marble'
   },
   {
     url: 'https://ik.imagekit.io/sarahman19/static/tekstur-kayu_6lONkD31B9b.jpg?updatedAt=1639274818478',
     title: 'Wood',
+    id: 'wood'
   },
   {
     url: 'https://ik.imagekit.io/sarahman19/static/stones-ga755b134c_640_7f1QrhOk4.jpg?updatedAt=1639274911266',
     title: 'Stone',
+    id: 'stone'
   },
   {
     url: 'https://ik.imagekit.io/sarahman19/static/spain-g5762ee4ce_640_9sy-6D3Be.jpg?updatedAt=1639276308078',
     title: 'Deco',
+    id: 'deco'
+  },
+  {
+    url: 'https://ik.imagekit.io/sarahman19/static/stole-gb39b97da5_640_PVGNQQp_p.jpg?updatedAt=1639371503645',
+    title: 'Embossed',
+    id: 'embossed'
   },
   {
     url: 'https://ik.imagekit.io/sarahman19/static/textile-g0fc23fff4_640_17qvVX-NW.jpg?updatedAt=1639277000228',
-    title: 'Textured',
-  },
-  {
-    url: 'https://ik.imagekit.io/sarahman19/static/circular-g950c567c0_640_9O6_TdTEm.jpg?updatedAt=1639276896811',
     title: 'Matte',
+    id: 'matte'
   }
 ];
 
@@ -35,7 +42,7 @@ const ImageButton = styled(ButtonBase)(({ theme }) => ({
   position: 'relative',
   height: 220,
   [theme.breakpoints.down('sm')]: {
-    width: '100% !important', // Overrides inline-style
+    width: '100% !important', 
     height: 150,
   },
   '&:hover, &.Mui-focusVisible': {
@@ -96,13 +103,20 @@ const ImageMarked = styled('span')(({ theme }) => ({
 }));
 
 export default function CardImageWithTitle() {
+  const navigate = useNavigate()
+
+  const handleGoProductPage = (idTekstur) => {
+    navigate('/tekstur/' + idTekstur)
+  }
+
   return (
     <Box sx={{ display: 'flex', flexWrap: 'wrap', minWidth: 300, width: '100%' }}>
       {images.map((image) => (
         <ImageButton
           sx={{m: 1, width: {xs: '31%', lg: '32%'}}}
           focusRipple
-          key={image.title}
+          key={image.id}
+          onClick={() => handleGoProductPage(image.id)}
         >
           <ImageSrc style={{ backgroundImage: `url(${image.url})` }} />
           <ImageBackdrop className="MuiImageBackdrop-root" />
