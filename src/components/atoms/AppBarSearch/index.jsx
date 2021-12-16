@@ -2,7 +2,17 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { styled, alpha } from "@mui/material/styles";
-import { AppBar, MenuItem, Menu, Button, Box, Toolbar, IconButton, Typography, InputBase } from "@mui/material";
+import {
+  AppBar,
+  MenuItem,
+  Menu,
+  Button,
+  Box,
+  Toolbar,
+  IconButton,
+  Typography,
+  InputBase,
+} from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
 
@@ -48,7 +58,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-const pages = ["produk", "kategori", "inspirasi"];
+const pages = ["home", "produk", "kontak"];
 
 export default function AppBarSearch() {
   const navigate = useNavigate();
@@ -67,7 +77,7 @@ export default function AppBarSearch() {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
         <Toolbar>
-        <Typography
+          <Typography
             variant="h6"
             noWrap
             component="div"
@@ -94,7 +104,7 @@ export default function AppBarSearch() {
                 );
               }
 
-              if (page === "kategori") {
+              if (page === "kontak") {
                 return (
                   <Button
                     key={page}
@@ -106,11 +116,11 @@ export default function AppBarSearch() {
                 );
               }
 
-              if (page === "inspirasi") {
+              if (page === "home") {
                 return (
                   <Button
                     key={page}
-                    onClick={() => navigate(`/${page}`)}
+                    onClick={() => navigate(`/`)}
                     sx={{ my: 2, color: "white", display: "block" }}
                   >
                     {page}
@@ -158,16 +168,16 @@ export default function AppBarSearch() {
                     </MenuItem>
                   );
                 }
-                if (page === "kategori") {
+                if (page === "kontak") {
                   return (
                     <MenuItem key={page} onClick={() => navigate(`/${page}`)}>
                       <Typography textAlign="center">{page}</Typography>
                     </MenuItem>
                   );
                 }
-                if (page === "inspirasi") {
+                if (page === "home") {
                   return (
-                    <MenuItem key={page} onClick={() => navigate(`/${page}`)}>
+                    <MenuItem key={page} onClick={() => navigate(`/`)}>
                       <Typography textAlign="center">{page}</Typography>
                     </MenuItem>
                   );

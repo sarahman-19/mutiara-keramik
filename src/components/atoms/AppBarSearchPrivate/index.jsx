@@ -65,7 +65,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-const pages = ["produk", "kategori", "inspirasi"];
+const pages = ["home", "produk", "kontak"];
 
 function AppBarSearchPrivate(props) {
   const navigate = useNavigate();
@@ -120,6 +120,8 @@ function AppBarSearchPrivate(props) {
       onClose={handleMenuClose}
     >
       <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+      <MenuItem onClick={handleMenuClose}>Favorite</MenuItem>
+      <MenuItem onClick={handleMenuClose}>Vocher</MenuItem>
       <MenuItem onClick={() => props.LogoutAccount()}>Logout</MenuItem>
     </Menu>
   );
@@ -129,14 +131,14 @@ function AppBarSearchPrivate(props) {
     <Menu
       anchorEl={mobileMoreAnchorEl}
       anchorOrigin={{
-        vertical: "top",
-        horizontal: "right",
+        vertical: "bottom",
+        horizontal: "left",
       }}
       id={mobileMenuId}
       keepMounted
       transformOrigin={{
         vertical: "top",
-        horizontal: "right",
+        horizontal: "left",
       }}
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
@@ -207,7 +209,7 @@ function AppBarSearchPrivate(props) {
                 );
               }
 
-              if (page === "kategori") {
+              if (page === "kontak") {
                 return (
                   <Button
                     key={page}
@@ -219,11 +221,11 @@ function AppBarSearchPrivate(props) {
                 );
               }
 
-              if (page === "inspirasi") {
+              if (page === "home") {
                 return (
                   <Button
                     key={page}
-                    onClick={() => navigate(`/${page}`)}
+                    onClick={() => navigate(`/`)}
                     sx={{ my: 2, color: "white", display: "block" }}
                   >
                     {page}
@@ -234,7 +236,7 @@ function AppBarSearchPrivate(props) {
               return 0;
             })}
           </Box>
-          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" }}}>
             <IconButton
               size="large"
               aria-label="account of current user"
@@ -271,16 +273,16 @@ function AppBarSearchPrivate(props) {
                     </MenuItem>
                   );
                 }
-                if (page === "kategori") {
+                if (page === "kontak") {
                   return (
                     <MenuItem key={page} onClick={() => navigate(`/${page}`)}>
                       <Typography textAlign="center">{page}</Typography>
                     </MenuItem>
                   );
                 }
-                if (page === "inspirasi") {
+                if (page === "home") {
                   return (
-                    <MenuItem key={page} onClick={() => navigate(`/${page}`)}>
+                    <MenuItem key={page} onClick={() => navigate(`/`)}>
                       <Typography textAlign="center">{page}</Typography>
                     </MenuItem>
                   );
@@ -300,11 +302,12 @@ function AppBarSearchPrivate(props) {
             />
           </Search>
           <Box sx={{ flexGrow: 1 }} />
-          <Box sx={{ display: { xs: "none", md: "flex" } }}>
+          <Box sx={{ display: { xs: "none", md: "flex" }}}>
             <IconButton
               size="large"
               aria-label="show 4 new mails"
               color="inherit"
+              sx={{mr: 1}}
             >
               <Badge badgeContent={4} color="error">
                 <ShoppingCartIcon />
@@ -314,6 +317,7 @@ function AppBarSearchPrivate(props) {
               size="large"
               aria-label="show 17 new notifications"
               color="inherit"
+              sx={{mr: 1}}
             >
               <Badge badgeContent={17} color="error">
                 <NotificationsIcon />

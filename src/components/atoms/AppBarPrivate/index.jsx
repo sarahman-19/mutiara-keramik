@@ -1,17 +1,27 @@
 // module
 import * as React from "react";
-import { AppBar, Button, Box, Toolbar, IconButton, Typography, Badge, MenuItem, Menu } from "@mui/material";
+import {
+  AppBar,
+  Button,
+  Box,
+  Toolbar,
+  IconButton,
+  Typography,
+  Badge,
+  MenuItem,
+  Menu,
+} from "@mui/material";
 import AccountCircle from "@mui/icons-material/AccountCircle";
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import NotificationsIcon from "@mui/icons-material/Notifications";
-import MenuIcon from '@mui/icons-material/Menu';
+import MenuIcon from "@mui/icons-material/Menu";
 import { useNavigate } from "react-router-dom";
-import {connect} from 'react-redux';
+import { connect } from "react-redux";
 
 // local module
-import {LogoutAccount} from '../../../config/Redux/Action';
+import { LogoutAccount } from "../../../config/Redux/Action";
 
-const pages = ["produk", "kategori", "inspirasi"];
+const pages = ["home", "produk", "kontak"];
 
 function AppBarPrivate(props) {
   const navigate = useNavigate();
@@ -42,19 +52,21 @@ function AppBarPrivate(props) {
     <Menu
       anchorEl={anchorEl}
       anchorOrigin={{
-        vertical: "top",
-        horizontal: "right",
+        vertical: "bottom",
+        horizontal: "left",
       }}
       id={menuId}
       keepMounted
       transformOrigin={{
         vertical: "top",
-        horizontal: "right",
+        horizontal: "left",
       }}
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
       <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+      <MenuItem onClick={handleMenuClose}>Favorite</MenuItem>
+      <MenuItem onClick={handleMenuClose}>Vocher</MenuItem>
       <MenuItem onClick={() => props.LogoutAccount()}>Logout</MenuItem>
     </Menu>
   );
@@ -90,7 +102,7 @@ function AppBarPrivate(props) {
                 );
               }
 
-              if (page === "kategori") {
+              if (page === "kontak") {
                 return (
                   <Button
                     key={page}
@@ -102,11 +114,11 @@ function AppBarPrivate(props) {
                 );
               }
 
-              if (page === "inspirasi") {
+              if (page === "home") {
                 return (
                   <Button
                     key={page}
-                    onClick={() => navigate(`/${page}`)}
+                    onClick={() => navigate(`/`)}
                     sx={{ my: 2, color: "white", display: "block" }}
                   >
                     {page}
@@ -157,16 +169,16 @@ function AppBarPrivate(props) {
                     </MenuItem>
                   );
                 }
-                if (page === "kategori") {
+                if (page === "kontak") {
                   return (
                     <MenuItem key={page} onClick={() => navigate(`/${page}`)}>
                       <Typography textAlign="center">{page}</Typography>
                     </MenuItem>
                   );
                 }
-                if (page === "inspirasi") {
+                if (page === "home") {
                   return (
-                    <MenuItem key={page} onClick={() => navigate(`/${page}`)}>
+                    <MenuItem key={page} onClick={() => navigate(`/`)}>
                       <Typography textAlign="center">{page}</Typography>
                     </MenuItem>
                   );
@@ -183,6 +195,7 @@ function AppBarPrivate(props) {
               size="large"
               aria-label="show 4 new mails"
               color="inherit"
+              sx={{ mr: 2 }}
             >
               <Badge badgeContent={4} color="error">
                 <ShoppingCartIcon />
@@ -192,6 +205,7 @@ function AppBarPrivate(props) {
               size="large"
               aria-label="show 17 new notifications"
               color="inherit"
+              sx={{ mr: 2 }}
             >
               <Badge badgeContent={17} color="error">
                 <NotificationsIcon />
@@ -205,6 +219,7 @@ function AppBarPrivate(props) {
               aria-haspopup="true"
               onClick={handleProfileMenuOpen}
               color="inherit"
+              sx={{ mr: 1 }}
             >
               <AccountCircle />
             </IconButton>
@@ -217,11 +232,11 @@ function AppBarPrivate(props) {
 }
 
 const reduxState = (state) => ({
-  LoginStatus: state.isLogin
-})
+  LoginStatus: state.isLogin,
+});
 
 const reduxAction = (dispatch) => ({
-  LogoutAccount: () => dispatch(LogoutAccount())
-})
+  LogoutAccount: () => dispatch(LogoutAccount()),
+});
 
 export default connect(reduxState, reduxAction)(AppBarPrivate);

@@ -14,7 +14,7 @@ import {
 import MenuIcon from "@mui/icons-material/Menu";
 import {useNavigate} from 'react-router-dom';
 
-const pages = ["produk", "kategori", "inspirasi"];
+const pages = [ "home", "produk", "kontak"];
 
 const AppBarLogin = (props) => {
   const navigate = useNavigate()
@@ -83,16 +83,16 @@ const AppBarLogin = (props) => {
                     </MenuItem>
                   );
                 }
-                if (page === "kategori") {
+                if (page === "kontak") {
                   return (
                     <MenuItem key={page} onClick={() => navigate(`/${page}`)}>
                       <Typography textAlign="center">{page}</Typography>
                     </MenuItem>
                   );
                 }
-                if (page === "inspirasi") {
+                if (page === "home") {
                   return (
-                    <MenuItem key={page} onClick={() => navigate(`/${page}`)}>
+                    <MenuItem key={page} onClick={() => navigate(`/`)}>
                       <Typography textAlign="center">{page}</Typography>
                     </MenuItem>
                   );
@@ -129,7 +129,7 @@ const AppBarLogin = (props) => {
                 );
               }
 
-              if (page === "kategori") {
+              if (page === "kontak") {
                 return (
                   <Button
                     key={page}
@@ -141,11 +141,11 @@ const AppBarLogin = (props) => {
                 );
               }
 
-              if (page === "inspirasi") {
+              if (page === "home") {
                 return (
                   <Button
                     key={page}
-                    onClick={() => navigate(`/${page}`)}
+                    onClick={() => navigate(`/`)}
                     sx={{ my: 2, color: "white", display: "block" }}
                   >
                     {page}

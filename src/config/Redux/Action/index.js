@@ -222,7 +222,10 @@ export const getProductsByTekstur = (IDtekstur) => (dispatch) => {
 
 export const getAllDataVariantAndProduct = (IDProduct) => async (dispatch) => {
   return new Promise(async (resolve, reject) => {
-    const data = [];
+    const data = {
+      Product: null,
+      variant: null
+    };
     // data product
     const refProduct = query(
       collection(dbFirestore, "products"),
@@ -230,7 +233,7 @@ export const getAllDataVariantAndProduct = (IDProduct) => async (dispatch) => {
     );
     const queryProduct = await getDocs(refProduct);
     queryProduct.forEach((doc) => {
-      data.push(doc.data());
+      data.Product = doc.data()
     });
     // data variant
     const refVariant = query(
@@ -239,7 +242,7 @@ export const getAllDataVariantAndProduct = (IDProduct) => async (dispatch) => {
     );
     const queryVariant = await getDocs(refVariant);
     queryVariant.forEach((doc) => {
-      data.push(doc.data());
+      data.variant = doc.data()
     });
     resolve(data);
     reject(false);
@@ -256,3 +259,18 @@ export const getProductsByBrand = (brand) => async (dispatch) => {
     console.log(doc.id, " => ", doc.data());
   });
 };
+
+export const likeHandle = (like, product, curentLike, data) => async (dispatch) => {
+  if(like){
+    await setDoc(doc(dbFirestore, "products", product), {
+      ...data,
+      favorite: curentLike + 1
+    });
+  }else{
+    await setDoc(doc(dbFirestore, "products", product), {
+      ...data,
+      favorite: curentLike - 1 + 1
+    });
+  }
+}
+
