@@ -13,6 +13,7 @@ import {
 import loginImage from "../../../../assets/svg/login.svg";
 import FormSignIn from "../../../organisms/FormSignIn";
 import AppBar from "../../../../components/molecules/AppBar";
+import {userHaveLogin} from '../../../../config/Redux/Action';
 
 // material ui
 import { Box, CardMedia } from "@mui/material";
@@ -21,6 +22,7 @@ const Login = (props) => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    props.loginValidate()
     if (props.isLogin) {
       navigate("/");
     }
@@ -101,6 +103,7 @@ const actionRedux = (dispatch) => ({
   loginWithFacebook: () => dispatch(loginWithFacebookApi()),
   loginWithGoole: () => dispatch(loginWithGoogleApi()),
   saveDataUser: (uid, dataUser) => dispatch(saveDataUserApi(uid, dataUser)),
+  loginValidate: () => dispatch(userHaveLogin())
 });
 
 export default connect(stateRedux, actionRedux)(Login);

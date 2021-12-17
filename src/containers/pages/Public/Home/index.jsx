@@ -1,18 +1,20 @@
 import AppBar from "../../../../components/molecules/AppBar";
 import { Box } from "@mui/material";
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import TeksturList from "../../../template/TeksturList";
 import {connect} from 'react-redux';
+import {userHaveLogin} from '../../../../config/Redux/Action';
+import {useNavigate} from 'react-router';
 
 function Home(props) {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   useEffect(() => {
-    if (props.statusLogin !== true) {
-      navigate("/");
+    if(props.loginStatus === false){
+      navigate('/')
     }
-  }, [navigate, props.statusLogin]);
+    props.loginValidate()
+  }, [navigate, props]);
 
   return (
     <div className="Home">
@@ -28,4 +30,8 @@ const reduxState = (state) => ({
   loginStatus: state.isLogin
 })
 
-export default connect(reduxState, null)(Home);
+const reduxAction = (dispatch) => ({
+  loginValidate: () => dispatch(userHaveLogin())
+})
+
+export default connect(reduxState, reduxAction)(Home);

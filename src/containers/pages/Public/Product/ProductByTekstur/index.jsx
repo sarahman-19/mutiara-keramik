@@ -1,21 +1,27 @@
 import { Box } from "@mui/material";
 import AppBarProduct from "../../../../../components/molecules/AppBarProduct";
 import { connect } from "react-redux";
-import { getProductsByTekstur } from "../../../../../config/Redux/Action";
+import { getProductsByTekstur, userHaveLogin } from "../../../../../config/Redux/Action";
 import { useEffect } from "react";
 import CardProduct from "../../../../../components/molecules/CardProduct";
 import { useParams } from "react-router-dom";
 import { useState } from "react";
+import {useNavigate} from 'react-router';
 
 const ProductByTekstur = (props) => {
   const [data, setData] = useState([]);
+  const navigate = useNavigate()
   const params = useParams();
 
   useEffect(() => {
+    if(props.statusLogin === false){
+      navigate('/produk')
+    }
+    props.loginValidate()
     props
       .getDataByTekstur(params.IDTekstur)
       .then((response) => setData(response));
-  }, [params, props]);
+  }, [navigate, params, props]);
 
   return (
     <Box>
@@ -52,6 +58,7 @@ const stateRedux = (state) => ({
 
 const stateAction = (dispatch) => ({
   getDataByTekstur: (tekstur) => dispatch(getProductsByTekstur(tekstur)),
+  loginValidate: () => dispatch(userHaveLogin())
 });
 
 export default connect(stateRedux, stateAction)(ProductByTekstur);

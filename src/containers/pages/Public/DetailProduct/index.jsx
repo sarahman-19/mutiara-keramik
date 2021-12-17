@@ -6,8 +6,9 @@ import {
 } from "../../../../config/Redux/Action";
 import { useEffect, useState } from "react";
 import AppBar from "../../../../components/molecules/AppBar";
-import { Box, Skeleton } from "@mui/material";
+import { Box, Skeleton, Button } from "@mui/material";
 import DetailProductCard from "../../../../components/molecules/DetailProductCard";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 
 const DetailProductPage = (props) => {
   const [data, setData] = useState("");
@@ -20,7 +21,12 @@ const DetailProductPage = (props) => {
   }, [params, props]);
 
   const likeHandle = (likeStatus) => {
-    props.likeHandle(likeStatus, data.Product.IDProduct, data.Product.favorite, data.Product);
+    props.likeHandle(
+      likeStatus,
+      data.Product.IDProduct,
+      data.Product.favorite,
+      data.Product
+    );
   };
 
   const showDetailCard = () => {
@@ -51,6 +57,11 @@ const DetailProductPage = (props) => {
       <AppBar loginStatus={props.loginStatus} link="/masuk" title="masuk" />
       <Box sx={{ display: "flex", justifyContent: "center" }}>
         {showDetailCard()}
+      </Box>
+      <Box sx={{ display: "flex", justifyContent: "center" }}>
+        <Button sx={{ width: { xs: "90%", md: "80%" } }} variant="contained">
+          <ShoppingCartIcon /> Tambah Ke Keranjang
+        </Button>
       </Box>
     </Box>
   );

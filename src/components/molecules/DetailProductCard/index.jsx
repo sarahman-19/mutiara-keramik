@@ -9,9 +9,10 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import ShareIcon from "@mui/icons-material/Share";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import Checkbox from '@mui/material/Checkbox';
-import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
-import Favorite from '@mui/icons-material/Favorite';
+import Checkbox from "@mui/material/Checkbox";
+import FavoriteBorder from "@mui/icons-material/FavoriteBorder";
+import Favorite from "@mui/icons-material/Favorite";
+import NumberFormat from "react-number-format";
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -57,7 +58,7 @@ export default function DetailProductCard(props) {
             <CardMedia
               component="img"
               height={{ xs: "250px", md: "250px" }}
-              sx={{ width: { xs: "150px", md: "250px" } }}
+              sx={{ width: { xs: "150px", md: "250px" }, boxShadow: 4 }}
               image={props.imageVariant}
               alt={props.title}
             />
@@ -83,8 +84,19 @@ export default function DetailProductCard(props) {
                 <Typography paragraph>Tekstur: {props.tekstur}</Typography>
               </ListItem>
               <ListItem>
-                <Typography sx={{ fontSize: "1.3em"}} color='primary' paragraph>
-                  Harga: Rp{props.harga}
+                <Typography
+                  sx={{ fontSize: "1.3em" }}
+                  color="primary"
+                  paragraph
+                >
+                  Harga:{" "}
+                  <NumberFormat
+                    value={props.harga}
+                    displayType={"text"}
+                    thousandSeparator={true}
+                    prefix={"Rp"}
+                    isNumericString={true}
+                  />
                 </Typography>
               </ListItem>
             </List>
@@ -92,7 +104,12 @@ export default function DetailProductCard(props) {
         </Box>
       </CardContent>
       <CardActions disableSpacing>
-        <Checkbox icon={<FavoriteBorder />} onClick={(e) => props.like(e.target.checked)} checkedIcon={<Favorite />} />
+        <Checkbox
+          icon={<FavoriteBorder />}
+          onClick={(e) => props.like(e.target.checked)}
+          checkedIcon={<Favorite />}
+          // checked={props.statusLike}
+        />
         <IconButton aria-label="share">
           <ShareIcon />
         </IconButton>

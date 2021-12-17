@@ -14,11 +14,17 @@ import {
   query,
   where,
   dbFirestore,
-  // getDoc,
+  getDoc,
   collectionGroup,
   doc,
   // set,
 } from "../../Firebase";
+
+import {
+  getDataStorage,
+  saveToStorageWithPrimitif,
+  removeDataStorage,
+} from "../../../utils/LocalStorage";
 
 export const loginWithEmailApi = (data) => (dispatch) => {
   return new Promise((resolve, reject) => {
@@ -37,6 +43,7 @@ export const loginWithEmailApi = (data) => (dispatch) => {
           type: "CHANGE_LOGIN",
           value: true,
         });
+        saveToStorageWithPrimitif("UID", userCredential.user.uid);
         resolve(true);
       })
 
@@ -87,6 +94,7 @@ export const registerWithEmailApi = (data) => (dispatch) => {
           type: "CHANGE_LOGIN",
           value: true,
         });
+        saveToStorageWithPrimitif("UID", userCredential.user.uid);
         resolve(dataUser);
       })
 
@@ -107,10 +115,13 @@ export const registerWithEmailApi = (data) => (dispatch) => {
   });
 };
 
-export const LogoutAccount = () => ({
-  type: "CHANGE_LOGIN",
-  value: false,
-});
+export const LogoutAccount = () => (dispatch) => {
+  dispatch({
+    type: "CHANGE_LOGIN",
+    value: false,
+  });
+  return removeDataStorage("UID");
+};
 
 export const loginWithFacebookApi = () => (dispatch) => {
   return new Promise((resolve, reject) => {
@@ -135,6 +146,7 @@ export const loginWithFacebookApi = () => (dispatch) => {
           type: "CHANGE_LOGIN",
           value: true,
         });
+        saveToStorageWithPrimitif("UID", result.user.uid);
         resolve(dataUser);
       })
       .catch((error) => {
@@ -171,6 +183,7 @@ export const loginWithGoogleApi = () => (dispatch) => {
           type: "CHANGE_LOGIN",
           value: true,
         });
+        saveToStorageWithPrimitif("UID", result.user.uid);
         resolve(dataUser);
       })
       .catch((error) => {
@@ -184,6 +197,8 @@ export const loginWithGoogleApi = () => (dispatch) => {
   });
 };
 
+// save data with new ID or change data
+
 export const saveDataUserApi = (uid, data) => (dispatch) => {
   try {
     setDoc(doc(dbFirestore, "users", uid), data);
@@ -191,6 +206,8 @@ export const saveDataUserApi = (uid, data) => (dispatch) => {
     console.error("Error adding document: ", err);
   }
 };
+
+// get all data on some collection
 
 export const getAllDataProduct = () => (dispatch) => {
   return new Promise(async (resolve, reject) => {
@@ -203,6 +220,8 @@ export const getAllDataProduct = () => (dispatch) => {
     reject(false);
   });
 };
+
+// filter data by what input in field
 
 export const getProductsByTekstur = (IDtekstur) => (dispatch) => {
   return new Promise(async (resolve, reject) => {
@@ -220,11 +239,13 @@ export const getProductsByTekstur = (IDtekstur) => (dispatch) => {
   });
 };
 
+// query collection grup
+
 export const getAllDataVariantAndProduct = (IDProduct) => async (dispatch) => {
   return new Promise(async (resolve, reject) => {
     const data = {
       Product: null,
-      variant: null
+      variant: null,
     };
     // data product
     const refProduct = query(
@@ -233,7 +254,7 @@ export const getAllDataVariantAndProduct = (IDProduct) => async (dispatch) => {
     );
     const queryProduct = await getDocs(refProduct);
     queryProduct.forEach((doc) => {
-      data.Product = doc.data()
+      data.Product = doc.data();
     });
     // data variant
     const refVariant = query(
@@ -242,35 +263,63 @@ export const getAllDataVariantAndProduct = (IDProduct) => async (dispatch) => {
     );
     const queryVariant = await getDocs(refVariant);
     queryVariant.forEach((doc) => {
-      data.variant = doc.data()
+      data.variant = doc.data();
     });
     resolve(data);
     reject(false);
   });
 };
 
-export const getProductsByBrand = (brand) => async (dispatch) => {
-  const q = query(
-    collection(dbFirestore, "products"),
-    where("brand", "==", brand)
-  );
-  const querySnapshot = await getDocs(q);
-  querySnapshot.forEach((doc) => {
-    console.log(doc.id, " => ", doc.data());
-  });
+// add or change data on field document
+
+export const likeHandle =
+  (like, product, curentLike, data) => async (dispatch) => {
+    if (like) {
+      await setDoc(doc(dbFirestore, "products", product), {
+        ...data,
+        favorite: curentLike + 1,
+      });
+    } else {
+      await setDoc(doc(dbFirestore, "products", product), {
+        ...data,
+        favorite: curentLike - 1 + 1,
+      });
+    }
+  };
+
+export const AddProductFavoriteByUser =
+  (product, data, uid) => async (dispatch) => {
+    await setDoc(doc(dbFirestore, "users", uid), {
+      ...data,
+      favoriteProduct: product,
+    });
+  };
+
+export const getDataUser = (uid) => async (dispatch) => {
+  const docRef = doc(dbFirestore, "users", uid);
+  const docSnap = await getDoc(docRef);
+
+  if (docSnap.exists()) {
+    console.log("Document data:", docSnap.data());
+  } else {
+    console.log("No such document!");
+  }
 };
 
-export const likeHandle = (like, product, curentLike, data) => async (dispatch) => {
-  if(like){
-    await setDoc(doc(dbFirestore, "products", product), {
-      ...data,
-      favorite: curentLike + 1
+// login validation
+
+export const userHaveLogin = () => (dispatch) => {
+  const uid = getDataStorage("UID");
+
+  if (uid === null) {
+    return dispatch({
+      type: "CHANGE_LOGIN",
+      value: false,
     });
-  }else{
-    await setDoc(doc(dbFirestore, "products", product), {
-      ...data,
-      favorite: curentLike - 1 + 1
+  } else {
+    return dispatch({
+      type: "CHANGE_LOGIN",
+      value: true,
     });
   }
-}
-
+};

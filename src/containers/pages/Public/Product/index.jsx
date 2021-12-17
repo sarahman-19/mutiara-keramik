@@ -1,16 +1,22 @@
 import { Box } from "@mui/material";
 import { connect } from "react-redux";
-import { getAllDataProduct } from "../../../../config/Redux/Action";
+import { getAllDataProduct, userHaveLogin } from "../../../../config/Redux/Action";
 import { useEffect, useState } from "react";
 import CardProduct from "../../../../components/molecules/CardProduct";
 import AppBarProduct from "../../../../components/molecules/AppBarProduct";
+import {useNavigate} from 'react-router';
 
 const ProductPage = (props) => {
   const [data, setData] = useState([]);
+  const navigate = useNavigate()
 
   useEffect(() => {
+    if(props.statusLogin === false){
+      navigate('/produk')
+    }
+    props.loginValidate()
     props.getAllProduct().then((response) => setData(response));
-  }, [props]);
+  }, [navigate, props]);
 
   return (
     <Box>
@@ -47,6 +53,7 @@ const stateRedux = (state) => ({
 
 const stateAction = (dispatch) => ({
   getAllProduct: () => dispatch(getAllDataProduct()),
+  loginValidate: () => dispatch(userHaveLogin())
 });
 
 export default connect(stateRedux, stateAction)(ProductPage);
