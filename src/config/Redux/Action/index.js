@@ -26,6 +26,8 @@ import {
   removeDataStorage,
 } from "../../../utils/LocalStorage";
 
+// login with email
+
 export const loginWithEmailApi = (data) => (dispatch) => {
   return new Promise((resolve, reject) => {
     dispatch({
@@ -63,6 +65,8 @@ export const loginWithEmailApi = (data) => (dispatch) => {
       });
   });
 };
+
+// register with email
 
 export const registerWithEmailApi = (data) => (dispatch) => {
   return new Promise((resolve, reject) => {
@@ -115,6 +119,8 @@ export const registerWithEmailApi = (data) => (dispatch) => {
   });
 };
 
+// handle log out from account
+
 export const LogoutAccount = () => (dispatch) => {
   dispatch({
     type: "CHANGE_LOGIN",
@@ -122,6 +128,8 @@ export const LogoutAccount = () => (dispatch) => {
   });
   return removeDataStorage("UID");
 };
+
+// login with facebook
 
 export const loginWithFacebookApi = () => (dispatch) => {
   return new Promise((resolve, reject) => {
@@ -159,6 +167,8 @@ export const loginWithFacebookApi = () => (dispatch) => {
       });
   });
 };
+
+// login with google
 
 export const loginWithGoogleApi = () => (dispatch) => {
   return new Promise((resolve, reject) => {
@@ -273,26 +283,52 @@ export const getAllDataVariantAndProduct = (IDProduct) => async (dispatch) => {
 // add or change data on field document
 
 export const likeHandle =
-  (like, product, curentLike, data) => async (dispatch) => {
+  (like, product, curentLike, dataProduct, dataUser, uid) =>
+  async (dispatch) => {
     if (like) {
       await setDoc(doc(dbFirestore, "products", product), {
-        ...data,
+        ...dataProduct,
         favorite: curentLike + 1,
       });
+
+      const docRef = doc(dbFirestore, "users", uid);
+      const docSnap = await getDoc(docRef);
+      let dataProductFavorite = [];
+      const dataUser = docSnap.data();
+
+      if (dataUser.favoriteProduct === undefined) {
+        dataProductFavorite.push(product);
+        await setDoc(doc(dbFirestore, "users", uid), {
+          ...dataUser,
+          favoriteProduct: dataProductFavorite,
+        });
+      } else {
+        dataProductFavorite = dataUser.favoriteProduct;
+        dataProductFavorite.push(product);
+        await setDoc(doc(dbFirestore, "users", uid), {
+          ...dataUser,
+          favoriteProduct: dataProductFavorite,
+        });
+      }
     } else {
       await setDoc(doc(dbFirestore, "products", product), {
-        ...data,
+        ...dataProduct,
         favorite: curentLike - 1 + 1,
       });
-    }
-  };
 
-export const AddProductFavoriteByUser =
-  (product, data, uid) => async (dispatch) => {
-    await setDoc(doc(dbFirestore, "users", uid), {
-      ...data,
-      favoriteProduct: product,
-    });
+      const docRef = doc(dbFirestore, "users", uid);
+      const docSnap = await getDoc(docRef);
+      const dataUser = docSnap.data();
+      let dataProductFavorite = [];
+
+      dataProductFavorite = dataUser.favoriteProduct.filter(
+        (a) => a !== product
+      );
+      await setDoc(doc(dbFirestore, "users", uid), {
+        ...dataUser,
+        favoriteProduct: dataProductFavorite,
+      });
+    }
   };
 
 // get data in one document
@@ -301,10 +337,11 @@ export const getDataUser = (uid) => (dispatch) => {
   return new Promise(async (resolve, reject) => {
     const docRef = doc(dbFirestore, "users", uid);
     const docSnap = await getDoc(docRef);
+
     if (docSnap.exists()) {
       resolve(docSnap.data());
     } else {
-      reject(false);
+      reject("No such document!");
     }
   });
 };
@@ -325,4 +362,34 @@ export const userHaveLogin = () => (dispatch) => {
       value: true,
     });
   }
+};
+
+// handle have user like a product
+
+export const handleStatusLikedCheck = (uid, product) => (dispatch) => {
+  return new Promise(async (resolve, reject) => {
+    const docRef = doc(dbFirestore, "users", uid);
+    const docSnap = await getDoc(docRef);
+    const dataUser = docSnap.data();
+    const productFavoriteUser = dataUser.favoriteProduct;
+
+    if (productFavoriteUser !== undefined) {
+      productFavoriteUser.forEach((a) => {
+        if (a === product) {
+          console.log(a);
+          // dispatch({
+          //   type: "CHANGE_LIKESTATUS",
+          //   value: true,
+          // });
+          resolve(true)
+        } else {
+          // dispatch({
+          //   type: "CHANGE_LIKESTATUS",
+          //   value: false,
+          // });
+          reject(false)
+        }
+      });
+    }
+  });
 };

@@ -13,10 +13,6 @@ import Checkbox from "@mui/material/Checkbox";
 import FavoriteBorder from "@mui/icons-material/FavoriteBorder";
 import Favorite from "@mui/icons-material/Favorite";
 import NumberFormat from "react-number-format";
-import {getDataUser} from '../../../config/Redux/Action'
-import {useEffect} from 'react';
-import {connect} from 'react-redux';
-import { getDataStorage } from "../../../utils/LocalStorage";
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -31,13 +27,6 @@ const ExpandMore = styled((props) => {
 
 function DetailProductCard(props) {
   const [expanded, setExpanded] = React.useState(false);
-  const uid = getDataStorage("UID");
-
-  useEffect(() => {
-    if (uid !== null) {
-      props.getDataUser(uid).then((data) => console.log(data));
-    }
-  }, [props, uid]);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -119,7 +108,7 @@ function DetailProductCard(props) {
           icon={<FavoriteBorder />}
           onClick={(e) => props.like(e.target.checked)}
           checkedIcon={<Favorite />}
-          // checked={props.statusLike}
+          checked={props.statusLike}
         />
         <IconButton aria-label="share">
           <ShareIcon />
@@ -160,14 +149,4 @@ function DetailProductCard(props) {
   );
 }
 
-const actionRedux = (dispatch) => ({
-  getDataUser: (uid) =>
-    dispatch(getDataUser(uid)),
-});
-
-const reduxState = (state) => ({
-  loginStatus: state.isLogin,
-  dataUser: state.dataUser
-});
-
-export default connect(reduxState, actionRedux)(DetailProductCard);
+export default DetailProductCard;

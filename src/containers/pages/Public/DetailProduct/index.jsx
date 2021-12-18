@@ -1,54 +1,77 @@
+// module
 import { useParams } from "react-router-dom";
 import { connect } from "react-redux";
+import { useEffect, useState } from "react";
+
+// local module
 import {
   getAllDataVariantAndProduct,
   likeHandle,
   userHaveLogin,
+  getDataUser,
+  handleStatusLikedCheck,
 } from "../../../../config/Redux/Action";
-import { useEffect, useState } from "react";
 import AppBar from "../../../../components/molecules/AppBar";
-import { Box, Skeleton, Button } from "@mui/material";
+import { getDataStorage } from "../../../../utils/LocalStorage";
 import DetailProductCard from "../../../../components/molecules/DetailProductCard";
+
+// material ui
+import { Box, Skeleton, Button } from "@mui/material";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 
 const DetailProductPage = (props) => {
-  const [data, setData] = useState("");
+  const [dataVariant, setDataVariant] = useState("");
+  const [dataUser, setDataUser] = useState("");
   const params = useParams();
+  const uid = getDataStorage("UID");
 
   useEffect(() => {
-    props.loginValidate();
+    if (uid !== null) {
+      props.getDataUser(uid).then((data) => setDataUser(data));
+    }
+
     props
       .getDataVariant(params.IDProduct)
-      .then((response) => setData(response));
-  }, [params, props]);
+      .then((response) => setDataVariant(response));
 
-  const likeHandle = (likeStatus) => {
+    props.loginValidate();
+  }, [params.IDProduct, props, uid]);
+
+  const handleLikeProduct = (likeStatus) => {
     props.likeHandle(
       likeStatus,
-      data.Product.IDProduct,
-      data.Product.favorite,
-      data.Product
+      dataVariant.Product.IDProduct,
+      dataVariant.Product.favorite,
+      dataVariant.Product,
+      dataUser,
+      uid
     );
   };
 
   const showDetailCard = () => {
-    if (data !== "") {
+    if (dataVariant !== "") {
       return (
         <DetailProductCard
-          tekstur={data.Product.tekstur}
-          like={likeHandle}
-          brand={data.Product.brand}
-          harga={data.Product.harga}
-          ukuran={data.Product.ukuran}
-          namaVariant={data.variant.nama}
-          imageVariant={data.variant.gambar}
-          imageDesain={data.Product.desain}
+          tekstur={dataVariant.Product.tekstur}
+          like={handleLikeProduct}
+          brand={dataVariant.Product.brand}
+          harga={dataVariant.Product.harga}
+          ukuran={dataVariant.Product.ukuran}
+          namaVariant={dataVariant.variant.nama}
+          imageVariant={dataVariant.variant.gambar}
+          imageDesain={dataVariant.Product.desain}
+          // statusLike={like}
         />
       );
     } else {
       return (
         <>
-          <Skeleton variant="rectangular" width={"80%"} height={400} />
+          <Skeleton
+            variant="rectangular"
+            sx={{ mb: 2 }}
+            width={"80%"}
+            height={400}
+          />
         </>
       );
     }
@@ -72,9 +95,12 @@ const DetailProductPage = (props) => {
 const actionRedux = (dispatch) => ({
   getDataVariant: (IDProduct) =>
     dispatch(getAllDataVariantAndProduct(IDProduct)),
-  likeHandle: (likeStatus, IDProduct, favorite, data) =>
-    dispatch(likeHandle(likeStatus, IDProduct, favorite, data)),
+  likeHandle: (likeStatus, IDProduct, favorite, data, dataUser, uid) =>
+    dispatch(likeHandle(likeStatus, IDProduct, favorite, data, dataUser, uid)),
   loginValidate: () => dispatch(userHaveLogin()),
+  getDataUser: (uid) => dispatch(getDataUser(uid)),
+  handleStatusLikedCheck: (uid, product) =>
+    dispatch(handleStatusLikedCheck(uid, product)),
 });
 
 export default connect(null, actionRedux)(DetailProductPage);

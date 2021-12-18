@@ -1,6 +1,7 @@
 const initialState = {
   isLogin: false,
   isLoading: false,
+  isLiked: false,
   dataUser: {},
 };
 
@@ -21,6 +22,12 @@ const Reducer = (state = initialState, action) => {
     return {
       ...state,
       isLoading: action.value,
+    };
+  }
+  if (action.type === "CHANGE_LIKESTATUS") {
+    return {
+      ...state,
+      isLiked: action.value,
     };
   }
   return state;
