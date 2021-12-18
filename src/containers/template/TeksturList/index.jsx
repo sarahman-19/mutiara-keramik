@@ -1,4 +1,7 @@
+// module
 import { Box, Typography } from "@mui/material";
+
+// local module
 import CardImageWithTitle from "../../../containers/organisms/CardImageWithTitle";
 
 const TeksturList = () => {

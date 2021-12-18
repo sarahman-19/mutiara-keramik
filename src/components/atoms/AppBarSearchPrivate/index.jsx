@@ -75,6 +75,13 @@ function AppBarSearchPrivate(props) {
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
+  const handleLogoutAccount = () => {
+    props.LogoutAccount();
+    if (props.LoginStatus) {
+      navigate('/');
+    }
+  };
+
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -122,7 +129,7 @@ function AppBarSearchPrivate(props) {
       <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
       <MenuItem onClick={handleMenuClose}>Favorite</MenuItem>
       <MenuItem onClick={handleMenuClose}>Vocher</MenuItem>
-      <MenuItem onClick={() => props.LogoutAccount()}>Logout</MenuItem>
+      <MenuItem onClick={handleLogoutAccount}>Logout</MenuItem>
     </Menu>
   );
 

@@ -295,15 +295,18 @@ export const AddProductFavoriteByUser =
     });
   };
 
-export const getDataUser = (uid) => async (dispatch) => {
-  const docRef = doc(dbFirestore, "users", uid);
-  const docSnap = await getDoc(docRef);
+// get data in one document
 
-  if (docSnap.exists()) {
-    console.log("Document data:", docSnap.data());
-  } else {
-    console.log("No such document!");
-  }
+export const getDataUser = (uid) => (dispatch) => {
+  return new Promise(async (resolve, reject) => {
+    const docRef = doc(dbFirestore, "users", uid);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      resolve(docSnap.data());
+    } else {
+      reject(false);
+    }
+  });
 };
 
 // login validation

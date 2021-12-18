@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import {
   getAllDataVariantAndProduct,
   likeHandle,
+  userHaveLogin,
 } from "../../../../config/Redux/Action";
 import { useEffect, useState } from "react";
 import AppBar from "../../../../components/molecules/AppBar";
@@ -15,6 +16,7 @@ const DetailProductPage = (props) => {
   const params = useParams();
 
   useEffect(() => {
+    props.loginValidate();
     props
       .getDataVariant(params.IDProduct)
       .then((response) => setData(response));
@@ -54,7 +56,7 @@ const DetailProductPage = (props) => {
 
   return (
     <Box>
-      <AppBar loginStatus={props.loginStatus} link="/masuk" title="masuk" />
+      <AppBar link="/masuk" title="masuk" />
       <Box sx={{ display: "flex", justifyContent: "center" }}>
         {showDetailCard()}
       </Box>
@@ -72,10 +74,7 @@ const actionRedux = (dispatch) => ({
     dispatch(getAllDataVariantAndProduct(IDProduct)),
   likeHandle: (likeStatus, IDProduct, favorite, data) =>
     dispatch(likeHandle(likeStatus, IDProduct, favorite, data)),
+  loginValidate: () => dispatch(userHaveLogin()),
 });
 
-const reduxState = (state) => ({
-  loginStatus: state.isLogin,
-});
-
-export default connect(reduxState, actionRedux)(DetailProductPage);
+export default connect(null, actionRedux)(DetailProductPage);

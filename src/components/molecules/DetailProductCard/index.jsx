@@ -13,6 +13,10 @@ import Checkbox from "@mui/material/Checkbox";
 import FavoriteBorder from "@mui/icons-material/FavoriteBorder";
 import Favorite from "@mui/icons-material/Favorite";
 import NumberFormat from "react-number-format";
+import {getDataUser} from '../../../config/Redux/Action'
+import {useEffect} from 'react';
+import {connect} from 'react-redux';
+import { getDataStorage } from "../../../utils/LocalStorage";
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -25,8 +29,15 @@ const ExpandMore = styled((props) => {
   }),
 }));
 
-export default function DetailProductCard(props) {
+function DetailProductCard(props) {
   const [expanded, setExpanded] = React.useState(false);
+  const uid = getDataStorage("UID");
+
+  useEffect(() => {
+    if (uid !== null) {
+      props.getDataUser(uid).then((data) => console.log(data));
+    }
+  }, [props, uid]);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -38,7 +49,7 @@ export default function DetailProductCard(props) {
         component="img"
         height={{ xs: "250px", md: "250px" }}
         image={props.imageDesain}
-        alt="Paella dish"
+        alt={props.title}
       />
       <CardContent>
         <Box
@@ -139,14 +150,6 @@ export default function DetailProductCard(props) {
             fragrant, about 10 minutes. Add saffron broth and remaining 4 1/2
             cups chicken broth; bring to a boil.
           </Typography>
-          <Typography paragraph>
-            Add rice and stir very gently to distribute. Top with artichokes and
-            peppers, and cook without stirring, until most of the liquid is
-            absorbed, 15 to 18 minutes. Reduce heat to medium-low, add reserved
-            shrimp and mussels, tucking them down into the rice, and cook again
-            without stirring, until mussels have opened and rice is just tender,
-            5 to 7 minutes more. (Discard any mussels that don’t open.)
-          </Typography>
           <Typography>
             Set aside off of the heat to let rest for 10 minutes, and then
             serve.
@@ -156,3 +159,15 @@ export default function DetailProductCard(props) {
     </Card>
   );
 }
+
+const actionRedux = (dispatch) => ({
+  getDataUser: (uid) =>
+    dispatch(getDataUser(uid)),
+});
+
+const reduxState = (state) => ({
+  loginStatus: state.isLogin,
+  dataUser: state.dataUser
+});
+
+export default connect(reduxState, actionRedux)(DetailProductCard);

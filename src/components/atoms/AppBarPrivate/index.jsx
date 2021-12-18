@@ -1,5 +1,4 @@
-// module
-import * as React from "react";
+// material ui module
 import {
   AppBar,
   Button,
@@ -15,19 +14,18 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import MenuIcon from "@mui/icons-material/Menu";
-import { useNavigate } from "react-router-dom";
-import { connect } from "react-redux";
 
-// local module
-import { LogoutAccount } from "../../../config/Redux/Action";
+// module
+import {useState} from "react";
+import { useNavigate } from "react-router-dom";
 
 const pages = ["home", "produk", "kontak"];
 
 function AppBarPrivate(props) {
   const navigate = useNavigate();
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
 
-  const [anchorElNav, setAnchorElNav] = React.useState(null);
+  const [anchorElNav, setAnchorElNav] = useState(null);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -231,12 +229,4 @@ function AppBarPrivate(props) {
   );
 }
 
-const reduxState = (state) => ({
-  LoginStatus: state.isLogin,
-});
-
-const reduxAction = (dispatch) => ({
-  LogoutAccount: () => dispatch(LogoutAccount()),
-});
-
-export default connect(reduxState, reduxAction)(AppBarPrivate);
+export default AppBarPrivate;

@@ -1,37 +1,32 @@
-import AppBar from "../../../../components/molecules/AppBar";
+// module
 import { Box } from "@mui/material";
 import { useEffect } from "react";
+import { connect } from "react-redux";
+
+// local module
 import TeksturList from "../../../template/TeksturList";
-import {connect} from 'react-redux';
-import {userHaveLogin} from '../../../../config/Redux/Action';
-import {useNavigate} from 'react-router';
+import { userHaveLogin } from "../../../../config/Redux/Action";
+import AppBar from "../../../../components/molecules/AppBar";
 
-function Home(props) {
-  const navigate = useNavigate()
-
+const Home = (props) => {
   useEffect(() => {
-    if(props.loginStatus === false){
-      navigate('/')
-    }
-    props.loginValidate()
-  }, [navigate, props]);
+    props.loginValidate();
+  }, [props]);
 
   return (
-    <div className="Home">
-      <AppBar loginStatus={props.loginStatus} link='/masuk' title='masuk' />
-      <Box sx={{ display: "flex", justifyContent: "center", mt: {xs: 1, md: 2}}}>
+    <>
+      <AppBar link="/masuk" title="masuk" />
+      <Box
+        sx={{ display: "flex", justifyContent: "center", m: { xs: 1, md: 2 } }}
+      >
         <TeksturList />
       </Box>
-    </div>
+    </>
   );
-}
-
-const reduxState = (state) => ({
-  loginStatus: state.isLogin
-})
+};
 
 const reduxAction = (dispatch) => ({
-  loginValidate: () => dispatch(userHaveLogin())
-})
+  loginValidate: () => dispatch(userHaveLogin()),
+});
 
-export default connect(reduxState, reduxAction)(Home);
+export default connect(null, reduxAction)(Home);

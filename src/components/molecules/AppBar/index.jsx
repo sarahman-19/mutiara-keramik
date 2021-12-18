@@ -1,18 +1,33 @@
+// module
+import { connect } from "react-redux";
+import { useNavigate } from "react-router-dom";
+
+// local module
 import AppBarPrivate from "../../atoms/AppBarPrivate";
 import AppBarLogin from "../../atoms/AppBarLogin";
-import {LogoutAccount} from '../../../config/Redux/Action';
-import {connect} from 'react-redux';
+import { LogoutAccount } from "../../../config/Redux/Action";
 
 const AppBar = (props) => {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    props.logout();
+    navigate("/");
+  };
+
   if (props.loginStatus) {
-    return <AppBarPrivate handleLogout={props.logout} />;
+    return <AppBarPrivate LogoutAccount={handleLogout} />;
   }
 
   return <AppBarLogin link={props.link} title={props.title} />;
 };
 
-const reduxAction = (dispatch) => ({
-    logout: () => dispatch(LogoutAccount())
-  })
+const stateRedux = (state) => ({
+  loginStatus: state.isLogin,
+});
 
-export default connect(null, reduxAction)(AppBar);
+const reduxAction = (dispatch) => ({
+  logout: () => dispatch(LogoutAccount()),
+});
+
+export default connect(stateRedux, reduxAction)(AppBar);
