@@ -381,7 +381,6 @@ export const handleStatusLikedCheck = (uid, product) => async (dispatch) => {
   const docSnap = await getDoc(docRef);
   const dataUser = docSnap.data();
   const productFavoriteUser = dataUser.favoriteProduct;
-  console.log(product)
 
   if (productFavoriteUser !== undefined) {
     const fav = productFavoriteUser.find((a) => a === product);

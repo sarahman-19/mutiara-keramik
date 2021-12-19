@@ -38,15 +38,19 @@ const DetailProductPage = (props) => {
   }, [params.IDProduct, props, uid]);
 
   const handleLikeProduct = (likeStatus) => {
-    props.likeHandle(
-      likeStatus,
-      dataVariant.Product.id,
-      dataVariant.Product.favorite,
-      dataVariant.Product,
-      dataUser,
-      uid,
-      dataVariant.Product.IDProduct
-    );
+    if (uid !== null) {
+      props.likeHandle(
+        likeStatus,
+        dataVariant.Product.id,
+        dataVariant.Product.favorite,
+        dataVariant.Product,
+        dataUser,
+        uid,
+        dataVariant.Product.IDProduct
+      );
+    }else{
+      alert('login dulu')
+    }
   };
 
   const showDetailCard = () => {
@@ -97,8 +101,26 @@ const DetailProductPage = (props) => {
 const actionRedux = (dispatch) => ({
   getDataVariant: (IDProduct) =>
     dispatch(getAllDataVariantAndProduct(IDProduct)),
-  likeHandle: (likeStatus, IDProduct, favorite, data, dataUser, uid, Productid) =>
-    dispatch(likeHandle(likeStatus, IDProduct, favorite, data, dataUser, uid, Productid)),
+  likeHandle: (
+    likeStatus,
+    IDProduct,
+    favorite,
+    data,
+    dataUser,
+    uid,
+    Productid
+  ) =>
+    dispatch(
+      likeHandle(
+        likeStatus,
+        IDProduct,
+        favorite,
+        data,
+        dataUser,
+        uid,
+        Productid
+      )
+    ),
   loginValidate: () => dispatch(userHaveLogin()),
   getDataUser: (uid) => dispatch(getDataUser(uid)),
   handleStatusLikedCheck: (uid, product) =>
