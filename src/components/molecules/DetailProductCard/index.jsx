@@ -1,4 +1,4 @@
-import * as React from "react";
+import { useEffect, useState } from "react";
 import { styled } from "@mui/material/styles";
 import { Card, Divider, Box, List, ListItem } from "@mui/material";
 import CardMedia from "@mui/material/CardMedia";
@@ -13,6 +13,10 @@ import Checkbox from "@mui/material/Checkbox";
 import FavoriteBorder from "@mui/icons-material/FavoriteBorder";
 import Favorite from "@mui/icons-material/Favorite";
 import NumberFormat from "react-number-format";
+import { connect } from "react-redux";
+import {
+  handleStatusLikedCheck
+} from "../../../config/Redux/Action";
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -26,7 +30,11 @@ const ExpandMore = styled((props) => {
 }));
 
 function DetailProductCard(props) {
-  const [expanded, setExpanded] = React.useState(false);
+  const [expanded, setExpanded] = useState(false);
+
+  useEffect(() => {
+    props.handleStatusLikedCheck(props.uid, props.productID)
+  }, [props])
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -149,4 +157,13 @@ function DetailProductCard(props) {
   );
 }
 
-export default DetailProductCard;
+const actionRedux = (dispatch) => ({
+  handleStatusLikedCheck: (uid, product) =>
+    dispatch(handleStatusLikedCheck(uid, product)),
+});
+
+const reduxState = (state) => ({
+  statusLike: state.isLiked
+})
+
+export default connect(reduxState, actionRedux)(DetailProductCard);

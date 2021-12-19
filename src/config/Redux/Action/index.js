@@ -283,12 +283,17 @@ export const getAllDataVariantAndProduct = (IDProduct) => async (dispatch) => {
 // add or change data on field document
 
 export const likeHandle =
-  (like, product, curentLike, dataProduct, dataUser, uid) =>
+  (like, product, curentLike, dataProduct, dataUser, uid, productID) =>
   async (dispatch) => {
     if (like) {
-      await setDoc(doc(dbFirestore, "products", product), {
+      await setDoc(doc(dbFirestore, "products", productID), {
         ...dataProduct,
         favorite: curentLike + 1,
+      });
+
+      dispatch({
+        type: "CHANGE_LIKESTATUS",
+        value: true,
       });
 
       const docRef = doc(dbFirestore, "users", uid);
@@ -311,9 +316,14 @@ export const likeHandle =
         });
       }
     } else {
-      await setDoc(doc(dbFirestore, "products", product), {
+      await setDoc(doc(dbFirestore, "products", productID), {
         ...dataProduct,
         favorite: curentLike - 1 + 1,
+      });
+
+      dispatch({
+        type: "CHANGE_LIKESTATUS",
+        value: false,
       });
 
       const docRef = doc(dbFirestore, "users", uid);
@@ -366,30 +376,25 @@ export const userHaveLogin = () => (dispatch) => {
 
 // handle have user like a product
 
-export const handleStatusLikedCheck = (uid, product) => (dispatch) => {
-  return new Promise(async (resolve, reject) => {
-    const docRef = doc(dbFirestore, "users", uid);
-    const docSnap = await getDoc(docRef);
-    const dataUser = docSnap.data();
-    const productFavoriteUser = dataUser.favoriteProduct;
+export const handleStatusLikedCheck = (uid, product) => async (dispatch) => {
+  const docRef = doc(dbFirestore, "users", uid);
+  const docSnap = await getDoc(docRef);
+  const dataUser = docSnap.data();
+  const productFavoriteUser = dataUser.favoriteProduct;
+  console.log(product)
 
-    if (productFavoriteUser !== undefined) {
-      productFavoriteUser.forEach((a) => {
-        if (a === product) {
-          console.log(a);
-          // dispatch({
-          //   type: "CHANGE_LIKESTATUS",
-          //   value: true,
-          // });
-          resolve(true)
-        } else {
-          // dispatch({
-          //   type: "CHANGE_LIKESTATUS",
-          //   value: false,
-          // });
-          reject(false)
-        }
+  if (productFavoriteUser !== undefined) {
+    const fav = productFavoriteUser.find((a) => a === product);
+    if (fav !== undefined) {
+      dispatch({
+        type: "CHANGE_LIKESTATUS",
+        value: true,
+      });
+    } else {
+      dispatch({
+        type: "CHANGE_LIKESTATUS",
+        value: false,
       });
     }
-  });
+  }
 };

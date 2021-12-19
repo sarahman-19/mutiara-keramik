@@ -8,13 +8,12 @@ import {
   Card,
   Typography,
 } from "@mui/material";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import ShareIcon from "@mui/icons-material/Share";
 import { useNavigate } from "react-router-dom";
+import Favorite from "@mui/icons-material/Favorite";
 
-export default function CardProduct(props) {
+function CardProduct(props) {
   const navigate = useNavigate();
-
   return (
     <Box sx={{ width: "300px", m: 1 }}>
       <Card>
@@ -29,7 +28,7 @@ export default function CardProduct(props) {
         </CardActionArea>
         <CardActions sx={{ display: "flex" }}>
           <Button size="small">
-            <FavoriteBorderIcon />
+            <Favorite />
             <Typography variant="caption">{props.likes}</Typography>
           </Button>
           <Button size="small">
@@ -48,3 +47,5 @@ export default function CardProduct(props) {
     </Box>
   );
 }
+
+export default CardProduct;

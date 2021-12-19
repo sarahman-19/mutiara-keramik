@@ -9,17 +9,20 @@ import { useEffect, useState } from "react";
 import {
   getAllDataProduct,
   userHaveLogin,
+  getDataUser,
 } from "../../../../config/Redux/Action";
 import CardProduct from "../../../../components/molecules/CardProduct";
 import AppBarProduct from "../../../../components/molecules/AppBarProduct";
+import { getDataStorage } from "../../../../utils/LocalStorage";
 
 const ProductPage = (props) => {
   const [data, setData] = useState([]);
+  const uid = getDataStorage("UID");
 
   useEffect(() => {
     props.loginValidate();
     props.getAllProduct().then((response) => setData(response));
-  }, [props]);
+  }, [props, uid]);
 
   return (
     <Box>
@@ -53,6 +56,7 @@ const ProductPage = (props) => {
 const stateAction = (dispatch) => ({
   getAllProduct: () => dispatch(getAllDataProduct()),
   loginValidate: () => dispatch(userHaveLogin()),
+  getDataUser: (uid) => dispatch(getDataUser(uid)),
 });
 
 export default connect(null, stateAction)(ProductPage);

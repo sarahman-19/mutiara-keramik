@@ -40,11 +40,12 @@ const DetailProductPage = (props) => {
   const handleLikeProduct = (likeStatus) => {
     props.likeHandle(
       likeStatus,
-      dataVariant.Product.IDProduct,
+      dataVariant.Product.id,
       dataVariant.Product.favorite,
       dataVariant.Product,
       dataUser,
-      uid
+      uid,
+      dataVariant.Product.IDProduct
     );
   };
 
@@ -60,7 +61,8 @@ const DetailProductPage = (props) => {
           namaVariant={dataVariant.variant.nama}
           imageVariant={dataVariant.variant.gambar}
           imageDesain={dataVariant.Product.desain}
-          // statusLike={like}
+          uid={uid}
+          productID={params.IDProduct}
         />
       );
     } else {
@@ -95,8 +97,8 @@ const DetailProductPage = (props) => {
 const actionRedux = (dispatch) => ({
   getDataVariant: (IDProduct) =>
     dispatch(getAllDataVariantAndProduct(IDProduct)),
-  likeHandle: (likeStatus, IDProduct, favorite, data, dataUser, uid) =>
-    dispatch(likeHandle(likeStatus, IDProduct, favorite, data, dataUser, uid)),
+  likeHandle: (likeStatus, IDProduct, favorite, data, dataUser, uid, Productid) =>
+    dispatch(likeHandle(likeStatus, IDProduct, favorite, data, dataUser, uid, Productid)),
   loginValidate: () => dispatch(userHaveLogin()),
   getDataUser: (uid) => dispatch(getDataUser(uid)),
   handleStatusLikedCheck: (uid, product) =>
